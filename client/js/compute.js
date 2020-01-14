@@ -55,8 +55,8 @@ const getAllEdges = () => {
           if (!effect2causes[effect]) effect2causes[effect] = []
           for (const cause of cids) {
             if (!cause2effects[cause]) cause2effects[cause] = []
-            effect2causes[effect].push(cause.toString())
-            cause2effects[cause].push(effect.toString())
+            effect2causes[effect].push(cause)
+            cause2effects[cause].push(effect)
           }
         }
       }
@@ -67,7 +67,7 @@ const getAllEdges = () => {
 
 const getConnected = (event, effect2causes, cause2effects) => {
   const connected = []
-  let boundary = [event.toString()]
+  let boundary = [ event ]
   while (boundary.length > 0) {
     const id = boundary.pop()
     for (const edges of [effect2causes, cause2effects]) {
@@ -253,7 +253,7 @@ const getNextConclusion = () => {
       const connected = getConnected(effect, effect2causes, cause2effects)
       for (const sid in $.statements) {
         const { type, event } = $.statements[sid].premises
-        if (type === 'causalNet' && connected.includes(event.toString())) {
+        if (type === 'causalNet' && connected.includes(event)) {
           $.nextConclusion = parseInt(sid)
           return true
         }

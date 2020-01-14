@@ -12,8 +12,7 @@ export const actions = {
   addStatement: () => {
     actions.showScreen('statement')
     $.editing = true
-    const id = ++$.lastId.statement
-    // const id = (++$.lastId.statement).toString()
+    const id = (++$.lastId.statement).toString()
     db.params.update('lastId', {statement: id})
     $.curId = id
     const statement = {
@@ -32,11 +31,10 @@ export const actions = {
     db.statements.add(statement)
   },
   addEvent: () => {
-    const id = ++$.lastId.event
-    // const id = (++$.lastId.event).toString()
+    const id = (++$.lastId.event).toString()
     db.params.update('lastId', {event: id})
     const event = {
-      id: id.toString(),
+      id: id,
       text: '',
     }
     $.events[id] = event

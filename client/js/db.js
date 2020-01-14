@@ -12,11 +12,9 @@ db.version(6).stores({
 export const loadDb = async () => {
   initSate()
   await db.statements.each((statement) => {
-      // statement.id = statement.id.toString()
       $.statements[statement.id] = statement
     })
   await db.events.each((event) => {
-    // event.id = event.id.toString()
     $.events[event.id] = event
   })
   //TODO: shorten loading of params from DB
@@ -92,7 +90,7 @@ export const importDb = (e) => {
   const reader = new FileReader()
   reader.onload = async (e) => {
     const tables = JSON.parse(e.target.result)
-    // formatIds(tables)
+    stringifyIds(tables) //TODO: remove this after 2020-03-01
     enableHooks = false
     await db.transaction('rw', Object.keys(tables), async () => {
       for (const name in tables) {
@@ -112,18 +110,28 @@ export const importDb = (e) => {
   reader.readAsText(e.target.files[0])
 }
 
-const formatIds = (tables) => {
+const stringifyIds = (tables) => {
   for (const event of tables.events) {
     event.id = event.id.toString()
   }
   for (const statement of tables.statements) {
-    statement.id = statement.id.toString()
-    if (statement.premises.type === 'statements') {
-      statement.premises.ids = statement.premises.ids.map(id => id.toString())
-    } else {
-      //TODO: Continue here!
-      //TODO: Continue here!
-      //TODO: Continue here!
+    const { id, type, premises, causation } = statement
+    statement.id = id.toString()
+    if (premises.type === 'statements') {
+      premises.ids = premises.ids.map(id => id.toString())
+    } else if (premises.type === 'causalNet') {
+      if (premises.event !== null) {
+        premises.event = premises.event.toString()
+      }
     }
+    if (type === 'causation') {
+      if (causation.effect !== null) {
+        causation.effect = causation.effect.toString()
+      }
+    }
+  }
+  const msObj = tables.params.find(({id}) => id === 'mainStatement')
+  if (msObj.sid) {
+    msObj.sid = msObj.sid.toString()
   }
 }
