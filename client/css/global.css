@@ -1,0 +1,84 @@
+body {
+  background: #fff8e1;
+  min-height: 100vh;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.is-clickable {
+  cursor: pointer;
+}
+
+.is-panel-input {
+  margin: -0.5em;
+  margin-left: -0.75em;
+  margin-right: 0.25em;
+}
+
+.is-list-item-button {
+  margin: -0.25em 0.5em;
+  height: 2em;
+  line-height: 1em;
+}
+
+.box.is-inline-block {
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
+}
+
+.is-absolute {
+  position: absolute;
+}
+.is-static {
+  position: static;
+}
+
+.graph-cont {
+  position: absolute;
+  left: 0;
+  width: calc(100vw - 13px);
+}
+.graph-cont-inner {
+  position: relative;
+  overflow-x: auto;
+  /* overflow-y: hidden; */
+}
+
+svg {
+  z-index: 1;
+}
+
+svg .causation {
+  fill: none;
+  stroke: lightgray;
+  stroke-width: 2;
+  marker-end: url(#arrow);
+}
+svg #arrow {
+  fill: lightgray;
+}
+
+svg .causation.positive {
+  stroke: #4a4a4a;
+  marker-end: url(#arrow_positive);
+}
+svg #arrow_positive {
+  fill: #4a4a4a;
+}
+
+svg .causation.negative {
+stroke: #4a4a4a;
+  marker-end: url(#arrow_negative);
+  stroke-dasharray: 0.5em;
+}
+svg #arrow_negative {
+  stroke: #4a4a4a;
+  fill: #fff8e1;
+}
+.node {
+  word-wrap: break-word;
+  padding: 0.9rem;
+  background-color: rgba(255, 255, 255, 0.67);
+}
