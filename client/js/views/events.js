@@ -1,6 +1,6 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
-import { actions } from '../actions.js'
+import { actions } from '../actions/actions.js'
 import { Copy } from './shared.js'
 
 const Edit = (id) => {
@@ -10,7 +10,7 @@ const Edit = (id) => {
   return html`
     <span
       class="icon" title=${iconText}
-      @click=${() => actions.toggleEventEdit(id)}
+      @click=${() => actions.toggle.eventEdit(id)}
     >
       <i class=${iconClass}></i>
     </span>
@@ -22,11 +22,11 @@ const Editor = (id, text) => html`
     class="input is-panel-input"
     type="text"
     .value=${text}
-    @change=${(e) => actions.setEventText(id, e.target.value)}
+    @change=${(e) => actions.set.eventText(id, e.target.value)}
   >
   <span
     class="icon" title="удалить"
-    @click=${() => actions.deleteEvent(id)}
+    @click=${() => actions.delete.event(id)}
   >
     <i class="fas fa-times"></i>
   </span>

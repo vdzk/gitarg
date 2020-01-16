@@ -1,6 +1,6 @@
 import { html } from '../../../third_party/lit-html/lit-html.js'
 import { $ } from '../../state.js'
-import { actions } from '../../actions.js'
+import { actions } from '../../actions/actions.js'
 import { Graph } from '../graph.js'
 import { Open } from '../shared.js'
 
@@ -10,7 +10,7 @@ const Premise = (pid) => html`
     ${Open(pid)}
     <span
       class="icon is-pulled-right is-clickable"
-      @click=${(e) => actions.removePremise(pid)}
+      @click=${(e) => actions.remove.premise(pid)}
     >
       <i class="fas fa-times"></i>
     </span>
@@ -21,7 +21,7 @@ const Paste = () => html`
   <button
     class="button"
     ?disabled=${$.buffer.statements.length === 0}
-    @click=${actions.paste2premises}
+    @click=${actions.paste.premises}
   >
     Вставить
   </button>
@@ -70,7 +70,7 @@ const PremisesType = () => html`
       <div class="select is-danger">
         <select
           .value=${$.statement.premises.type}
-          @change=${(e) => actions.setPremisesType(e.target.value)}
+          @change=${(e) => actions.set.premisesType(e.target.value)}
         >
           ${['statements', 'causalNet', 'links'].map(PremiseTypeOption)}
         </select>
@@ -114,7 +114,7 @@ const LinkEditor = ({title, url}, i) => html`
     <p class="control is-expanded">
       <input
         .value=${title}
-        @change=${(e) => actions.setLinkTitle(i, e.target.value)}
+        @change=${(e) => actions.set.linkTitle(i, e.target.value)}
         class="input"
         type="text"
       >
@@ -129,7 +129,7 @@ const LinkEditor = ({title, url}, i) => html`
     <p class="control is-expanded">
       <input
         .value=${url}
-        @change=${(e) => actions.setLinkUrl(i, e.target.value)}
+        @change=${(e) => actions.set.linkUrl(i, e.target.value)}
         class="input"
         type="text"
       >
@@ -137,7 +137,7 @@ const LinkEditor = ({title, url}, i) => html`
     <p class="control">
       <a
         class="button is-danger"
-        @click=${() => actions.removeLink(i)}
+        @click=${() => actions.remove.link(i)}
       >
         <span class="icon">
           <i class="fas fa-times"></i>
@@ -149,7 +149,7 @@ const LinkEditor = ({title, url}, i) => html`
 
 const LinksEditor = () => html`
   ${$.statement.premises.links.map(LinkEditor)}
-  <button class="button" @click=${actions.addLink}>
+  <button class="button" @click=${actions.add.link}>
     Добавить
   </button>
 `
@@ -166,7 +166,7 @@ const Event = (eid) => html`
     ${ $.events[eid].text }
     <span
       class="icon is-pulled-right is-clickable"
-      @click=${() => actions.removePremiseEvent()}
+      @click=${() => actions.remove.premiseEvent()}
     >
       <i class="fas fa-times"></i>
     </span>
@@ -186,7 +186,7 @@ const EventEditor = () => {
       <button
         class="button"
         ?disabled=${$.buffer.events.length === 0}
-        @click=${actions.paste2event}
+        @click=${actions.paste.event}
       >
         Вставить
       </button>
@@ -199,13 +199,13 @@ const Condition = ([cid, happened]) => html`
     ${$.events[cid].text}
     <button
       class=${'button is-list-item-button ' + ((happened) ? 'is-success' : 'is-light')}
-      @click=${() => actions.setPremiseCondition(cid, !happened)}
+      @click=${() => actions.set.premiseCondition(cid, !happened)}
     >
       ${(happened) ? 'свершилось': 'не свершилось'}
     </button>
     <span
       class="icon is-pulled-right is-clickable"
-      @click=${() => actions.removePremiseCondition(cid)}
+      @click=${() => actions.remove.premiseCondition(cid)}
     >
       <i class="fas fa-times"></i>
     </span>
@@ -223,7 +223,7 @@ const ConditionsEditor = () => html`
     <button
       class="button"
       ?disabled=${$.buffer.events.length === 0}
-      @click=${actions.paste2conditions}
+      @click=${actions.paste.conditions}
     >
       Вставить
     </button>

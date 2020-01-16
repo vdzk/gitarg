@@ -1,7 +1,7 @@
 import { html, svg } from '../../third_party/lit-html/lit-html.js'
 import { styleMap } from '../../third_party/lit-html/directives/style-map.js'
 import { $ } from '../state.js'
-import { actions } from '../actions.js'
+import { actions } from '../actions/actions.js'
 import { Open } from './shared.js'
 import { holeStr } from '../constants.js'
 
@@ -72,11 +72,10 @@ const Node = (id) => {
   let value
   if (conditions.hasOwnProperty(id)) {
     const conditionText = (conditions[id]) ? 'да' : 'нет'
-    console.log({id}, $.altConditions[id], $.altConditions)
     const altCondition = $.altConditions[id]
     if (altCondition) {
       value = html`
-        <a @click=${() => actions.showId(altCondition)} >
+        <a @click=${() => actions.set.curId(altCondition)} >
           ${conditionText}
         </a>
       `

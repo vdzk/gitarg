@@ -1,6 +1,6 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
-import { actions } from '../actions.js'
+import { actions } from '../actions/actions.js'
 import { exportDb, importDb } from '../db.js'
 
 export const Saves = () => html`

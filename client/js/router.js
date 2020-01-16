@@ -1,5 +1,5 @@
 import { $ } from './state.js'
-import { actions } from './actions.js'
+import { actions } from './actions/actions.js'
 import createMatcher from '../third_party/feather-route-matcher.js'
 
 const routes = {
@@ -50,27 +50,27 @@ const matcher = createMatcher({
     replaceRoute()
   },
   '/events': () => {
-    actions.showScreen('events')
+    actions.set.screen('events')
   },
   '/statement/:statementId/:userId/:editing': ({statementId, userId, editing}) => {
     const id = statementId
     if ($.statements.hasOwnProperty(id)) {
-      actions.showId(id)
-      actions.setUserId(parseInt(userId))
-      ;(editing === '1') ? actions.edit() : actions.stopEdit()
+      actions.set.curId(id)
+      actions.set.userId(parseInt(userId))
+      actions.set.editing(editing === '1')
     } else {
       replaceRoute()
     }
   },
   '/statements/:userId': ({userId}) => {
-      actions.setUserId(parseInt(userId))
-      actions.showScreen('statements')
+      actions.set.userId(parseInt(userId))
+      actions.set.screen('statements')
   },
   '/saves': () => {
-    actions.showScreen('saves')
+    actions.set.screen('saves')
   },
   '/settings': () => {
-    actions.showScreen('settings')
+    actions.set.screen('settings')
   },
   '/*': () => {
     //Route not matched

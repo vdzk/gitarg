@@ -1,6 +1,6 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
-import { actions } from '../actions.js'
+import { actions } from '../actions/actions.js'
 
 export const Copy = (type, id) => {
   const inBuffer = $.buffer[type].includes(id)
@@ -9,7 +9,7 @@ export const Copy = (type, id) => {
   return html`
     <span
       class="icon" title=${iconText}
-      @click=${(e) => actions.toggleBuffer(e, id, type)}
+      @click=${(e) => actions.toggle.buffer(e, id, type)}
     >
       <i class=${iconClass}></i>
     </span>
@@ -29,7 +29,7 @@ export const Hint = (text) => html`
 export const Open = (id) => html`
   <span
     class="icon is-clickable"
-    @click=${() => actions.showId(id)}
+    @click=${() => actions.set.curId(id)}
   >
     <i class="far fa-arrow-alt-circle-right"></i>
   </span>

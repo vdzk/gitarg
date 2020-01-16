@@ -1,4 +1,4 @@
-import { compute } from './compute.js'
+import { compute } from './compute/compute.js'
 import { render } from '../third_party/lit-html/lit-html.js'
 import { App } from './views/app.js'
 import { updateRoute, applyRoute } from './router.js'

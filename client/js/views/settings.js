@@ -1,6 +1,6 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
-import { actions } from '../actions.js'
+import { actions } from '../actions/actions.js'
 
 const ProjectName = () => html`
   <div class="field">
@@ -10,7 +10,7 @@ const ProjectName = () => html`
         class="input"
         type="text"
         .value=${$.projectName}
-        @change=${e => actions.setProjectName(e.target.value)}
+        @change=${e => actions.set.projectName(e.target.value)}
       >
     </div>
   </div>
@@ -21,7 +21,7 @@ const Statement = (sid) => html`
     ${ $.statements[sid].modText }
     <span
       class="icon is-pulled-right is-clickable"
-      @click=${() => actions.removeMainStatement()}
+      @click=${() => actions.remove.mainStatement()}
     >
       <i class="fas fa-times"></i>
     </span>
@@ -39,7 +39,7 @@ const MainStatement = () => html`
     <button
       class="button"
       ?disabled=${$.buffer.statements.length === 0}
-      @click=${actions.paste2mainStatement}
+      @click=${actions.paste.mainStatement}
     >
       Вставить
     </button>
@@ -54,7 +54,7 @@ const User = (name, i) => html`
         class="input"
         type="text"
         .value=${$.users[i]}
-        @change=${e => actions.setUserName(i, e.target.value)}
+        @change=${e => actions.set.userName(i, e.target.value)}
       >
     </div>
   </div>

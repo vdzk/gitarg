@@ -1,6 +1,6 @@
 import { html } from '../../../third_party/lit-html/lit-html.js'
 import { $ } from '../../state.js'
-import { actions } from '../../actions.js'
+import { actions } from '../../actions/actions.js'
 import { modVar } from '../../constants.js'
 import { Hint } from '../shared.js'
 
@@ -24,7 +24,7 @@ const SelectType = () => html`
       <div class="select is-danger">
         <select
           .value=${$.statement.type}
-          @change=${(e) => actions.setType(e.target.value)}
+          @change=${(e) => actions.set.type(e.target.value)}
         >
           ${['simple', 'causation', 'quote'].map(TypeOption)}
         </select>
@@ -38,7 +38,7 @@ const Effect = (eid) => html`
     ${ $.events[eid].text }
     <span
       class="icon is-pulled-right is-clickable"
-      @click=${() => actions.removeCausationEffect()}
+      @click=${() => actions.remove.causationEffect()}
     >
       <i class="fas fa-times"></i>
     </span>
@@ -58,7 +58,7 @@ const EffectEditor = () => {
       <button
         class="button"
         ?disabled=${$.buffer.events.length === 0}
-        @click=${actions.paste2effect}
+        @click=${actions.paste.effect}
       >
         Вставить
       </button>
@@ -73,7 +73,7 @@ const Cause = ([eid, weights]) => html`
         ${$.events[eid].text}
         <span
           class="icon is-clickable is-pulled-right"
-          @click=${() => actions.removeCausationCause(eid)}
+          @click=${() => actions.remove.causationCause(eid)}
           title="Удалить причину"
         >
         <i class="fas fa-times"></i>
@@ -108,13 +108,13 @@ const Cause = ([eid, weights]) => html`
               max="999"
               min="-999"
               .value=${weights[$.userId]}
-              @change=${(e) => actions.setWeight(eid, e.target.value)}
+              @change=${(e) => actions.set.weight(eid, e.target.value)}
             >
           </div>
           <div class="control">
             <a
               class="button"
-              @click=${() => actions.setWeight(eid, null)}
+              @click=${() => actions.set.weight(eid, null)}
             >
               <span class="icon">
                 <i class="fas fa-trash-alt"></i>
@@ -137,7 +137,7 @@ const Causes = (causes) => html`
       <button
         class="button"
         ?disabled=${$.buffer.events.length === 0}
-        @click=${actions.paste2causes}
+        @click=${actions.paste.causes}
       >
         Вставить
       </button>
@@ -175,7 +175,7 @@ const ProbField = (key, showDesc) => html`
       min="0"
       max="100"
       .value=${$.statement.causation[key][$.userId]}
-      @change=${(e) => actions.setProb(key, e.target.value)}
+      @change=${(e) => actions.set.prob(key, e.target.value)}
     >
   </div>
   <div class="control">
@@ -202,7 +202,7 @@ const Probability = (fieldKeys, showDesc) => html`
     <div class="control">
       <a
         class="button"
-        @click=${() => actions.removeProbs()}
+        @click=${() => actions.remove.probs()}
       >
         <span class="icon">
           <i class="fas fa-trash-alt"></i>
@@ -245,7 +245,7 @@ const QuoteEditor = () => html`
   <textarea
     class="textarea"
     .value=${$.statement.quote}
-    @change=${(e) => actions.setQuote(e.target.value)}
+    @change=${(e) => actions.set.quote(e.target.value)}
   >
   </textarea>
 `
@@ -275,7 +275,7 @@ const TextInput = () => html`
       class="input"
       type="text"
       .value=${$.statement.text}
-      @change=${(e) => actions.setText(e.target.value)}
+      @change=${(e) => actions.set.text(e.target.value)}
     >
   </div>
 `
@@ -303,7 +303,7 @@ const Modifier = (name, i) => html`
     <p class="control">
       <input
         .value=${$.statement.modifiers[$.userId]}
-        @change=${(e) => actions.setModifier(e.target.value)}
+        @change=${(e) => actions.set.modifier(e.target.value)}
         class="input"
         type="text"
       >
@@ -311,7 +311,7 @@ const Modifier = (name, i) => html`
     <p class="control">
       <a
         class="button"
-        @click=${() => actions.setModifier(null)}
+        @click=${() => actions.set.modifier(null)}
       >
         <span class="icon">
           <i class="fas fa-trash-alt"></i>

@@ -1,6 +1,6 @@
 import Dexie from '../third_party/dexie.es.js'
 import { $, initSate, stateChange } from './state.js'
-import { actions } from './actions.js'
+import { actions } from './actions/actions.js'
 
 export const db = new Dexie('steps')
 db.version(6).stores({
@@ -104,7 +104,7 @@ export const importDb = (e) => {
     if ($.mainStatement === null) {
       stateChange()
     } else {
-      actions.showId($.mainStatement)
+      actions.set.curId($.mainStatement)
     }
   }
   reader.readAsText(e.target.files[0])

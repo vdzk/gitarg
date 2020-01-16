@@ -1,11 +1,11 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
-import { actions } from '../actions.js'
+import { actions } from '../actions/actions.js'
 
 const HomeBtn = () => html`
   <button
     class="button"
-    @click=${() => actions.showId($.mainStatement)}
+    @click=${() => actions.set.curId($.mainStatement)}
     ?disabled=${$.mainStatement === null}
     title="Перейти к главному утверждению"
   >
@@ -18,7 +18,7 @@ const HomeBtn = () => html`
 const AllBtn = () => html`
   <button
     class="button"
-    @click=${() => actions.showScreen('statements')}
+    @click=${() => actions.set.screen('statements')}
     ?disabled=${$.screen === 'statements'}
   >
     Утверждения
@@ -28,7 +28,7 @@ const AllBtn = () => html`
 const AddBtn = () => html`
   <button
     class="button is-pulled-right"
-    @click=${actions.addItem}
+    @click=${actions.add.item}
     title="Новое утверждение/событие"
   >
     <span class="icon">
@@ -40,7 +40,7 @@ const AddBtn = () => html`
 const Events = () => html`
   <button
     class="button"
-    @click=${() => actions.showScreen('events')}
+    @click=${() => actions.set.screen('events')}
     ?disabled=${$.screen === 'events'}
   >
     События
@@ -50,7 +50,7 @@ const Events = () => html`
 const Saves = () => html`
   <button
     class="button"
-    @click=${() => actions.showScreen('saves')}
+    @click=${() => actions.set.screen('saves')}
     ?disabled=${$.screen === 'saves'}
   >
     <span class="icon">
@@ -63,7 +63,7 @@ const Saves = () => html`
 const Settings = () => html`
   <button
     class="button"
-    @click=${() => actions.showScreen('settings')}
+    @click=${() => actions.set.screen('settings')}
     ?disabled=${$.screen === 'settings'}
   >
     <span class="icon">
@@ -76,7 +76,7 @@ const Settings = () => html`
 const Perspective = () => html`
   <button
     class="button is-pulled-right"
-    @click=${actions.toggleUserId}
+    @click=${actions.toggle.userId}
     title='переключить пользователя модификаторов'
   >
     <span class="icon" >
