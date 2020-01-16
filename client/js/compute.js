@@ -309,10 +309,39 @@ const getPremisesTree = () => {
   //Manage expanded paths in state $ via actions and build an ectual list and clean up epanded paths in compute
 }
 
+const getAltConditions = () => {
+  $.altConditions = {}
+
+  //check if in the right state of view
+  if (
+    $.screen !== 'statement'
+    || $.editing
+    || $.statement.premises.type !== 'causalNet'
+  ) {
+    return false
+  }
+
+  for (const cid in $.statement.premises.conditions) {
+    const condVal = $.statement.premises.conditions[cid]
+    for (const sid in $.statements) {
+      const { type, conditions } = $.statements[sid].premises
+      if (
+        type === 'causalNet'
+        && conditions.hasOwnProperty(cid)
+        && conditions[cid] !== condVal
+      ) {
+        $.altConditions[cid] = sid
+      }
+    }
+  }
+  console.log($.altConditions)
+}
+
 export const compute = () => {
   $.statement = ($.curId === null) ? null : $.statements[$.curId]
   modifyText()
   Infer()
   getNextConclusion()
   getPremisesTree()
+  getAltConditions()
 }

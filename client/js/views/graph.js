@@ -71,7 +71,18 @@ const Node = (id) => {
   }
   let value
   if (conditions.hasOwnProperty(id)) {
-    value = (conditions[id]) ? 'да' : 'нет'
+    const conditionText = (conditions[id]) ? 'да' : 'нет'
+    console.log({id}, $.altConditions[id], $.altConditions)
+    const altCondition = $.altConditions[id]
+    if (altCondition) {
+      value = html`
+        <a @click=${() => actions.showId(altCondition)} >
+          ${conditionText}
+        </a>
+      `
+    } else {
+      value = conditionText
+    }
   } else {
     value = ($.inference.hasOwnProperty(id)) ? ($.inference[id] * 100).toFixed(1) + '%' : holeStr
   }

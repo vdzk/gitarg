@@ -5,6 +5,7 @@ export const actions = {
   showScreen: (s) => $.screen = s,
   toggleTreeView: () => $.treeView = !$.treeView,
   showId: (id) => {
+    console.log({id})
     actions.showScreen('statement')
     $.editing = false
     $.curId = id
