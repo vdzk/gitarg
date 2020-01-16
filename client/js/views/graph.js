@@ -63,9 +63,8 @@ const Node = (id) => {
     top: (y - height / 2) + 'px',
     left: (x - width / 2) + 'px',
   }
-  const hasCause = $.graph.predecessors(id).length > 0
   const sid = $.effect2statement[id]
-  const open = (hasCause) ? Open(sid) : ''
+  const open = (sid) ? Open(sid) : ''
   const { event, conditions } = $.statement.premises
   if (id == event) {
     label = '★'+label

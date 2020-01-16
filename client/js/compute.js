@@ -7,10 +7,18 @@ const modifyText = () => {
     const { type } = statement
     if (type === 'causation') {
       const { effect, causes } = statement.causation
+      const cl = Object.keys(causes).length
       if (effect === null) {
         modText += holeStr
       } else {
-        const mps = (Object.keys(causes).length > 1) ? ['minP', 'midP', 'maxP'] : ['minP', 'maxP']
+        let mps
+        if (cl === 0) {
+          mps = ['midP']
+        } else if (cl === 1) {
+          mps = ['minP', 'maxP']
+        } else {
+          mps = ['minP', 'midP', 'maxP']
+        }
         const pStr = mps
           .map((mp) => {
             const P = statement.causation[mp][$.userId]
@@ -20,11 +28,13 @@ const modifyText = () => {
         modText += '('+ pStr +')% '
         modText += $.events[effect].text
       }
-      modText += ' <='
-      for (const cid in causes) {
-        const w = causes[cid][$.userId]
-        const W = (w === null) ? holeStr : w
-        modText += ' ' + W + ' ' + $.events[cid].text
+      if (cl > 0) {
+        modText += ' <='
+        for (const cid in causes) {
+          const w = causes[cid][$.userId]
+          const W = (w === null) ? holeStr : w
+          modText += ' ' + W + ' ' + $.events[cid].text
+        }
       }
     } else {
       const { modifiers, text } = statement
@@ -136,6 +146,14 @@ const Infer = () => {
         cpt = P2cpt(0.5)
       } else {
         continue
+      }
+    } else if (effect2causes[eid] === undefined) {
+      const uMidP = $.statements[sid].causation.midP[$.userId]
+      if (uMidP === null) {
+        continue
+      } else {
+        parents = []
+        cpt = P2cpt(parseFloat(uMidP) / 100)
       }
     } else {
       parents = effect2causes[eid]

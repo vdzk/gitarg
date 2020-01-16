@@ -7,8 +7,8 @@ import { Hint } from '../shared.js'
 //TODO: rename 'causation' => 'probFunc' in code and data
 const TypeLabels = {
   simple: 'простое',
-  causation: 'функция вероятности',
   quote: 'цитата',
+  causation: 'функция вероятности',
 }
 
 const TypeOption = (type) => html`
@@ -49,7 +49,7 @@ const EffectEditor = () => {
   const eid = $.statement.causation.effect
   return html`
     <div class="field">
-      <label class="label">Следствие</label>
+      <label class="label">Событие</label>
       <div class="control">
         <div class="list">
           ${(eid) ? Effect(eid) : ''}
@@ -157,13 +157,17 @@ const probFieldHints = {
   maxP: 'Найлучшая комбинации причин (в смысле влияния на вероятность следствия).',
 }
 
-const ProbField = (key) => html`
+const ProbFieldDesc = (key) => html`
   <div class="control">
     <a class="button is-static">
       ${probFieldLabels[key]}
     </a>
   </div>
   ${Hint(probFieldHints[key])}
+`
+
+const ProbField = (key, showDesc) => html`
+  ${(showDesc) ? ProbFieldDesc(key) : ''}
   <div class="control">
     <input
       class="input"
@@ -181,8 +185,8 @@ const ProbField = (key) => html`
   </div>
 `
 
-const Probability = (fieldKeys) => html`
-  <div class="label">Вероятность следствия</div>
+const Probability = (fieldKeys, showDesc) => html`
+  <div class="label">Вероятность события</div>
   <div class="field has-addons">
     <div class="control">
       <a class="button is-static">
@@ -194,7 +198,7 @@ const Probability = (fieldKeys) => html`
         </span>
       </a>
     </div>
-    ${fieldKeys.map(ProbField)}
+    ${fieldKeys.map(key => ProbField(key, showDesc))}
     <div class="control">
       <a
         class="button"
@@ -210,12 +214,19 @@ const Probability = (fieldKeys) => html`
 
 const CausationEditor = () => {
   const causes = Object.entries($.statement.causation.causes)
-  const fieldKeys = ['minP', 'midP', 'maxP']
-  if (causes.length <= 1) fieldKeys.splice(1, 1)
+  let fieldKeys
+  if (causes.length === 0) {
+    fieldKeys = ['midP']
+  } else if (causes.length === 1) {
+    fieldKeys = ['minP', 'maxP']
+  } else {
+    fieldKeys = ['minP', 'midP', 'maxP']
+  }
+  const showDesc = causes.length > 0
   return html`
     ${Causes(causes)}
     ${EffectEditor()}
-    ${Probability(fieldKeys)}
+    ${Probability(fieldKeys, showDesc)}
   `
 }
 
