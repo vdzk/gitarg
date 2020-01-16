@@ -112,7 +112,6 @@ export const actions = {
   },
   setProb: (key, p) => {
     let { id, causation } = $.statement
-    // id = parseInt(id)
     causation[key][$.userId] = p
     db.statements.update(id, {causation})
   },

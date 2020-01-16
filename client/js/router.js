@@ -49,7 +49,7 @@ const matcher = createMatcher({
     actions.showScreen('events')
   },
   '/statement/:statementId/:userId/:editing': ({statementId, userId, editing}) => {
-    const id = parseInt(statementId)
+    const id = statementId
     if ($.statements.hasOwnProperty(id)) {
       actions.showId(id)
       actions.setUserId(parseInt(userId))

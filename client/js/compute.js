@@ -185,6 +185,8 @@ const Infer = () => {
           let p
           if (parents.length === 1) {
             p = w
+          } else if (u.minP === u.maxP) {
+            p = u.minP
           } else {
             const m = (u.midP - u.minP) / (u.maxP - u.minP)
             if (m === 0) {
@@ -210,7 +212,6 @@ const Infer = () => {
       cpt,
     })
   }
-  // console.log(nodes)
 
   //run inference
   //NOTE: getNet() was manually added to bayesjs source code by exporting createNetwork()
@@ -254,7 +255,7 @@ const getNextConclusion = () => {
       for (const sid in $.statements) {
         const { type, event } = $.statements[sid].premises
         if (type === 'causalNet' && connected.includes(event)) {
-          $.nextConclusion = parseInt(sid)
+          $.nextConclusion = sid
           return true
         }
       }
@@ -263,7 +264,7 @@ const getNextConclusion = () => {
     for (const sid in $.statements) {
       const { type, ids } = $.statements[sid].premises
       if (type === 'statements' && ids.includes($.curId)) {
-        $.nextConclusion = parseInt(sid)
+        $.nextConclusion = sid
         return true
       }
     }

@@ -4,9 +4,10 @@ import { actions } from '../../actions.js'
 import { modVar } from '../../constants.js'
 import { Hint } from '../shared.js'
 
+//TODO: rename 'causation' => 'probFunc' in code and data
 const TypeLabels = {
   simple: 'простое',
-  causation: 'причино-следственная связь',
+  causation: 'функция вероятности',
   quote: 'цитата',
 }
 
