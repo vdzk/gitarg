@@ -19,6 +19,10 @@ const routes = {
     segments: ['saves'],
     title: 'Сохранения'
   }),
+  settings: () => ({
+    segments: ['settings'],
+    title: 'Настройки'
+  }),
 }
 
 const getRoute = () => {
@@ -64,6 +68,9 @@ const matcher = createMatcher({
   },
   '/saves': () => {
     actions.showScreen('saves')
+  },
+  '/settings': () => {
+    actions.showScreen('settings')
   },
   '/*': () => {
     //Route not matched

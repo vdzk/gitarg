@@ -60,6 +60,19 @@ const Saves = () => html`
   </button>
 `
 
+const Settings = () => html`
+  <button
+    class="button"
+    @click=${() => actions.showScreen('settings')}
+    ?disabled=${$.screen === 'settings'}
+  >
+    <span class="icon">
+      <i class="fas fa-cog"></i>
+    </span>
+    <span>Настройки</span>
+  </button>
+`
+
 const Perspective = () => html`
   <button
     class="button is-pulled-right"
@@ -81,6 +94,7 @@ export const Controls = () => html`
     ${AllBtn()}
     ${Events()}
     ${Saves()}
+    ${Settings()}
     ${AddBtn()}
     <span class="is-pulled-right">
       &nbsp;

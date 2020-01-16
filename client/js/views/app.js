@@ -5,6 +5,7 @@ import { Events } from './events.js'; screens.events = Events
 import { Statement } from './statement/statement.js'; screens.statement = Statement
 import { Statements } from './statements.js'; screens.statements = Statements
 import { Saves } from './saves.js'; screens.saves = Saves
+import { Settings } from './settings.js'; screens.settings = Settings
 import { $ } from '../state.js'
 
 export const App = () => html`

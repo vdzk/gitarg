@@ -115,6 +115,14 @@ export const actions = {
     causation[key][$.userId] = p
     db.statements.update(id, {causation})
   },
+  setProjectName: (name) => {
+    $.projectName = name
+    db.params.update('project', { name })
+  },
+  setUserName: (i, name) => {
+    $.users[i] = name
+    db.params.update('users', { names: $.users })
+  },
   removeProbs: () => {
     const { id, causation } = $.statement
     for (const key of ['minP', 'minP', 'maxP']) {
@@ -144,6 +152,15 @@ export const actions = {
       premises.ids.splice(i, 1)
       db.statements.update(id, {premises})
     }
+  },
+  paste2mainStatement: () => {
+    const sid = $.buffer.statements.shift()
+    $.mainStatement = sid
+    db.params.update('mainStatement', { sid })
+  },
+  removeMainStatement: () => {
+    $.mainStatement = null
+    db.params.update('mainStatement', { sid: null })
   },
   paste2event: () => {
     const { id, premises } = $.statement
@@ -232,6 +249,9 @@ export const actions = {
       if (type === 'statements' && ids.includes(id)) {
         actions.removePremise(id, sid)
       }
+    }
+    if ($.mainStatement === id) {
+      $.mainStatement === null
     }
   },
   deleteEvent: (eid) => {
