@@ -6,6 +6,7 @@ import { Statement } from './statement/statement.js'; screens.statement = Statem
 import { Statements } from './statements.js'; screens.statements = Statements
 import { Saves } from './saves.js'; screens.saves = Saves
 import { Settings } from './settings.js'; screens.settings = Settings
+import { Modal } from './modal.js'
 import { $ } from '../state.js'
 
 export const App = () => html`
@@ -13,6 +14,7 @@ export const App = () => html`
     <div class="container is-static">
       ${Controls()}
       ${screens[$.screen]()}
+      ${($.modal) ? Modal() : ''}
     </div>
   </div>
 `

@@ -3,6 +3,8 @@ import { db } from '../db.js'
 import { actions } from './actions.js'
 
 export const remove = {
+  modal: () => $.modal = null,
+  expanded: (expId) => delete $.expanded[expId],
   link: (i) => {
     const { id, premises } = $.statement
     premises.links.splice(i, 1)
@@ -37,7 +39,7 @@ export const remove = {
     delete premises.conditions[cid]
     db.statements.update(id, {premises})
   },
-  causationEffect: (sid=$curId) => {
+  causationEffect: (sid=$.curId) => {
     const { id, causation } = $.statements[sid]
     causation.effect = null
     db.statements.update(id, {causation})
@@ -99,5 +101,4 @@ export const remove = {
       }
     }
   },
-  expanded: (expId) => delete $.expanded[expId],
 }

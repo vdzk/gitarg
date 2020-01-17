@@ -53,19 +53,19 @@ const TreeViewItem = ({pid, indent, type, id}) => {
   if (expanded) {
     expander = html`
       <span class="icon is-clickable" @click=${() => actions.remove.expanded(expId)}>
-        <i class="fas fa-chevron-up"></i>
+        <i class="far fa-minus-square"></i>
       </span>
     `
   } else if (canExpand) {
     expander = html`
       <span class="icon is-clickable" @click=${() => actions.add.expanded(expId, pid)}>
-        <i class="fas fa-chevron-down"></i>
+        <i class="far fa-plus-square"></i>
       </span>
     `
   } else {
     expander = html`
       <span class="icon is-invisible">
-        <i class="fas fa-chevron-down"></i>
+        <i class="far fa-plus-square"></i>
       </span>
     `
   }
@@ -113,7 +113,7 @@ export const Statements = () => html`
       ?disabled=${$.treeView || $.mainStatement === null}
     >
       <span class="icon">
-        <i class="far fa-folder-open"></i>
+        <i class="fas fa-sitemap"></i>
       </span>
       <span>Дерево</span>
     </button>

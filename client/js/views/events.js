@@ -26,7 +26,7 @@ const Editor = (id, text) => html`
   >
   <span
     class="icon" title="удалить"
-    @click=${() => actions.delete.event(id)}
+    @click=${() => actions.remove.event(id)}
   >
     <i class="fas fa-times"></i>
   </span>

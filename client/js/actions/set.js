@@ -10,6 +10,7 @@ export const set = {
   curId: (id) => {
     set.screen('statement')
     set.editing(false)
+    actions.remove.modal()
     $.curId = id
   },
   linkTitle: (i, title) => {

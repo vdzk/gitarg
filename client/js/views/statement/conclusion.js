@@ -235,7 +235,7 @@ const CausationViewer = () => html`
     <label class="label">
       Вывод
     </label>
-    ${$.statement.modText}
+    ${$.statement.modTextFull}
   </div>
 `
 

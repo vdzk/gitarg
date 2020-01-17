@@ -2,7 +2,8 @@ export let $
 
 export const initSate = () => $ = {
   screen: 'statements',
-  treeView: false,
+  modal: null,
+  treeView: true,
   premisesTree: null,
   expanded: {},
   reExpanded: null,

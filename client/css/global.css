@@ -37,6 +37,7 @@ body {
 
 .tree-view-item {
   margin-left: calc(var(--indent) * 20px);
+  line-height: 2;
 }
 
 .graph-cont {

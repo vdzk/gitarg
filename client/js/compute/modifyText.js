@@ -6,10 +6,13 @@ export const modifyText = () => {
     let modText = ''
     const { type } = statement
     if (type === 'causation') {
+      let modTextFull = ''
+      let missingData = false
       const { effect, causes } = statement.causation
       const cl = Object.keys(causes).length
       if (effect === null) {
         modText += holeStr
+        modTextFull += holeStr
       } else {
         let mps
         if (cl === 0) {
@@ -22,20 +25,36 @@ export const modifyText = () => {
         const pStr = mps
           .map((mp) => {
             const P = statement.causation[mp][$.userId]
-            return (P === null) ? holeStr.replace('(', '').replace(')', '') : P
+            if (P === null) {
+              missingData = true
+              return holeStr.replace('(', '').replace(')', '')
+            } else {
+              return P
+            }
           })
           .join('/')
-        modText += '('+ pStr +')% '
-        modText += $.events[effect].text
+        modTextFull += '('+ pStr +')% '
+        modTextFull += $.events[effect].text
+        modText += 'Вероятность: "' + $.events[effect].text + '"'
       }
       if (cl > 0) {
-        modText += ' <='
+        modTextFull += ' <='
         for (const cid in causes) {
           const w = causes[cid][$.userId]
-          const W = (w === null) ? holeStr : w
-          modText += ' ' + W + ' ' + $.events[cid].text
+          let W
+          if (w === null) {
+            W = holeStr
+            missingData = true
+          } else {
+            W = w
+          }
+          modTextFull += ' ' + W + ' ' + $.events[cid].text
         }
       }
+      if (missingData) {
+        modText += ' ' + holeStr
+      }
+      statement.modTextFull = modTextFull
     } else {
       const { modifiers, text } = statement
       if (modifiers && text.includes(modVar)) {
