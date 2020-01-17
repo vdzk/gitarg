@@ -110,6 +110,16 @@ export const importDb = (e) => {
   reader.readAsText(e.target.files[0])
 }
 
+export const deleteDb = async () => {
+    enableHooks = false
+    await db.tables.forEach(async (table) => {
+      await table.clear()
+    })
+    enableHooks = true
+    await loadDb()
+    actions.set.screen('settings')
+}
+
 const stringifyIds = (tables) => {
   for (const event of tables.events) {
     event.id = event.id.toString()

@@ -1,7 +1,7 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
 import { actions } from '../actions/actions.js'
-import { exportDb, importDb } from '../db.js'
+import { exportDb, importDb, deleteDb } from '../db.js'
 
 export const Saves = () => html`
   <div class="field">
@@ -38,4 +38,13 @@ export const Saves = () => html`
       </div>
     </div>
   </article>
+
+  <div class="field">
+    <button class="button is-danger is-pulled-right" @click=${deleteDb}>
+      <span class='icon'>
+        <i class="fas fa-trash"></i>
+      </span>
+      <span>Удалить сохранение</span>
+    </button>
+  </div>
 `
