@@ -35,6 +35,10 @@ body {
   position: static;
 }
 
+.tree-view-item {
+  margin-left: calc(var(--indent) * 20px);
+}
+
 .graph-cont {
   position: absolute;
   left: 0;

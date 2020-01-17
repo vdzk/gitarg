@@ -1,21 +1,78 @@
 import { $ } from '../state.js'
+import { getAllEdges, getConnected } from './graph.js'
+import { eventIdPrefix } from '../constants.js'
 
 export const getPremisesTree = () => {
   if ($.screen !== 'statements' || !$.treeView || $.mainStatement === null) {
+    $.premisesTree = null
     return false
+  } else {
+    $.premisesTree = []
   }
 
-  let boundary = [ $.mainStatement ]
+
+  const lostExpand = new Set(Object.keys($.expanded))
+  let boundary = [{
+    pid: null,
+    indent: 0,
+    type: 'statement',
+    id: $.mainStatement,
+  }]
   while (boundary.length > 0) {
-    const sid = boundary.pop()
-
+    const item = boundary.shift()
+    const { pid, indent, type, id } = item
+    $.premisesTree.push(item)
+    if (type === 'statement') {
+      if ($.expanded[id] === pid && (pid !== $.reExpanded || pid === null)) {
+        lostExpand.delete(id)
+        const { premises } = $.statements[id]
+        if (premises.type === 'statements') {
+          boundary = premises.ids
+            .map(sid => ({
+              pid: id,
+              indent: indent + 1,
+              type: 'statement',
+              id: sid,
+            }))
+            .concat(boundary)
+        } else if (premises.type === 'causalNet') {
+          //TODO: do not duplicate 'causalNet' nodes if different premises.event in different statemetns are part of the same nework
+          boundary.unshift({
+            pid: id,
+            indent: indent + 1,
+            type: 'causalNet',
+            id: premises.event,
+          })
+        } else if (premises.type === 'links') {
+          boundary = premises.links
+            .map((l, i) => ({
+              pid: id,
+              indent: indent + 1,
+              type: 'link',
+              id: i,
+            }))
+            .concat(boundary)
+        }
+      }
+    } else if (type === 'causalNet') {
+      const expId = eventIdPrefix + id
+      if ($.expanded[expId] === pid && pid !== $.reExpanded) {
+        lostExpand.delete(expId)
+        const { effect2statement, effect2causes, cause2effects } = getAllEdges()
+        const connected = getConnected(id, effect2causes, cause2effects)
+        boundary = connected
+          .map(eid => ({
+            pid: expId,
+            indent: indent + 1,
+            type: 'statement',
+            id: effect2statement[eid],
+          }))
+          .filter(({id}) => !!id)
+          .concat(boundary)
+      }
+    }
   }
-
-  //TODO: Continue here!!!
-  //TODO: Continue here!!!
-  //TODO: Continue here!!!
-  //Keep list of expanded *paths*
-  //Starting from boundary [$.mainStatement] display and add premises to boundary if matched expanded paths
-  //Expanding a paths should collapse an alternate path to the same node
-  //Manage expanded paths in state $ via actions and build an ectual list and clean up epanded paths in compute
+  //Epand can be lost because one of the ancestors was unexpanded.
+  lostExpand.forEach(id => delete $.expanded[id])
+  $.reExpanded = null
 }

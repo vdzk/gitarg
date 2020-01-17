@@ -99,4 +99,5 @@ export const remove = {
       }
     }
   },
+  expanded: (expId) => delete $.expanded[expId],
 }

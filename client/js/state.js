@@ -3,7 +3,9 @@ export let $
 export const initSate = () => $ = {
   screen: 'statements',
   treeView: false,
+  premisesTree: null,
   expanded: {},
+  reExpanded: null,
   editing: false,
   users: ['A', 'B'],
   userId: 0,

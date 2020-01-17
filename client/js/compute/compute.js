@@ -10,5 +10,5 @@ export const compute = () => {
   infer()
   getNextConclusion()
   getAltConditions()
-  // getPremisesTree()
+  getPremisesTree()
 }

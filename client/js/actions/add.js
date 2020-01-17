@@ -61,4 +61,10 @@ export const add = {
     $.statement.causation = causation
     db.statements.update($.curId, { causation })
   },
+  expanded: (expId, pid) => {
+    if ($.expanded.hasOwnProperty(expId)) {
+      $.reExpanded = expId
+    }
+    $.expanded[expId] = pid
+  },
 }

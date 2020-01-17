@@ -12,8 +12,8 @@ const routes = {
     title: $.statement.modText,
   }),
   statements: () => ({
-    segments: ['statements', $.userId],
-    title: 'Утверждения',
+    segments: ['statements', ($.treeView) ? '1' : '0', $.userId],
+    title: (($.treeView) ? 'Дерево' : 'Список') + ' утверждений',
   }),
   saves: () => ({
     segments: ['saves'],
@@ -62,9 +62,10 @@ const matcher = createMatcher({
       replaceRoute()
     }
   },
-  '/statements/:userId': ({userId}) => {
-      actions.set.userId(parseInt(userId))
-      actions.set.screen('statements')
+  '/statements/:treeView/:userId': ({userId, treeView}) => {
+    actions.set.userId(parseInt(userId))
+    actions.set.screen('statements')
+    actions.set.treeView(treeView === '1')
   },
   '/saves': () => {
     actions.set.screen('saves')
