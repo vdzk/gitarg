@@ -57,4 +57,17 @@ export const paste = {
     causation.effect = eid
     db.statements.update(id, {causation})
   },
+  observation: () => {
+    const { id, observation } = $.statement
+    const eid = $.buffer.events.shift()
+    for (const sid in $.statements) {
+      const { type, observation } = $.statements[sid]
+      if (type === 'observation' && observation.event === eid) {
+        $.modal = { type: 'duplicateObservation', eid, sid }
+        return false
+      }
+    }
+    observation.event = eid
+    db.statements.update(id, {observation})
+  },
 }

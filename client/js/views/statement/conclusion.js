@@ -9,11 +9,12 @@ const TypeLabels = {
   simple: 'простое',
   quote: 'цитата',
   causation: 'функция вероятности',
+  observation: 'наблюдение',
 }
 
-const TypeOption = (type) => html`
+const TypeOption = ([type, label]) => html`
   <option value=${type} ?selected=${type === $.statement.type}>
-    ${TypeLabels[type]}
+    ${label}
   </option>
 `
 
@@ -26,7 +27,7 @@ const SelectType = () => html`
           .value=${$.statement.type}
           @change=${(e) => actions.set.type(e.target.value)}
         >
-          ${['simple', 'causation', 'quote'].map(TypeOption)}
+          ${Object.entries(TypeLabels).map(TypeOption)}
         </select>
       </div>
     </div>
@@ -241,6 +242,58 @@ const CausationViewer = () => html`
 
 const Causation = () => ($.editing) ? CausationEditor() : CausationViewer()
 
+//TODO: merge with Condition() ?
+const ObservationItem = () => {
+  const { event, happened }= $.statement.observation
+  return html`
+    <div class="list-item">
+      ${$.events[event].text}
+      <button
+        class=${'button is-list-item-button ' + ((happened) ? 'is-success' : 'is-light')}
+        @click=${() => actions.set.observation(!happened)}
+      >
+        ${(happened) ? 'свершилось': 'не свершилось'}
+      </button>
+      <span
+        class="icon is-pulled-right is-clickable"
+        @click=${() => actions.remove.observation()}
+      >
+        <i class="fas fa-times"></i>
+      </span>
+    </div>
+  `
+}
+
+//TODO: merge with ConditionsEditor?
+const ObservationEditor = () => html`
+  <div class="field">
+    <label class="label">Наблюдение</label>
+    <div class="control">
+      <div class="list">
+        ${($.statement.observation.event === null) ? '' : ObservationItem()}
+      </div>
+    </div>
+    <button
+      class="button"
+      ?disabled=${$.buffer.events.length === 0}
+      @click=${actions.paste.observation}
+    >
+      Вставить
+    </button>
+  </div>
+`
+
+const ObservationViewer = () => html`
+  <div class="field">
+    <label class="label">
+      Вывод
+    </label>
+    ${$.statement.modText}
+  </div>
+`
+
+const Observation = () => ($.editing) ? ObservationEditor() : ObservationViewer()
+
 const QuoteEditor = () => html`
   <textarea
     class="textarea"
@@ -329,8 +382,13 @@ const TextConclusion = () => html`
   ${($.editing) ? Modifier() : ''}
 `
 
-export const Conclusion = () => html`
-  ${($.editing) ? SelectType() : ''}
-  ${($.statement.type === 'quote') ? Quote() : ''}
-  ${($.statement.type === 'causation') ? Causation() : TextConclusion()}
-`
+export const Conclusion = () => {
+  const { type } = $.statement
+  return html`
+    ${($.editing) ? SelectType() : ''}
+    ${(type === 'quote') ? Quote() : ''}
+    ${(type === 'causation') ? Causation() : '' }
+    ${(type === 'observation') ? Observation() : '' }
+    ${(['simple', 'quote'].includes(type)) ? TextConclusion() : ''}
+  `
+}

@@ -55,6 +55,15 @@ export const modifyText = () => {
         modText += ' ' + holeStr
       }
       statement.modTextFull = modTextFull
+    } else if (type === 'observation') {
+      const { event, happened } = statement.observation
+      modText = ''
+      modText += (happened) ? 'Cвершилось: ' : 'Не свершилось: '
+      if (event === null) {
+        modText += holeStr
+      } else {
+        modText += '"' + $.events[event].text + '"'
+      }
     } else {
       const { modifiers, text } = statement
       if (modifiers && text.includes(modVar)) {

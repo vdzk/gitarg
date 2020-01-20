@@ -159,13 +159,21 @@ export const infer = () => {
     })
   }
 
-  //run inference
-  //NOTE: getNet() was manually added to bayesjs source code by exporting createNetwork()
-  const network = bayesjs.getNet(...nodes)
+  //Collect conditions
   let bayesConditions = {}
+  for (const { id } of nodes) {
+    if ($.observations.hasOwnProperty(id)) {
+      const { happened } = $.observations[id]
+      bayesConditions[id] = (happened) ? 'T' : 'F'
+    }
+  }
   for (const cid in conditions) {
     bayesConditions[cid] = (conditions[cid]) ? 'T' : 'F'
   }
+
+  //run inference
+  //NOTE: getNet() was manually added to bayesjs source code by exporting createNetwork()
+  const network = bayesjs.getNet(...nodes)
   //NOTE: infer() source code was manually modified to return all probabilities
   $.inference = bayesjs.infer(network, {}, bayesConditions)
 }

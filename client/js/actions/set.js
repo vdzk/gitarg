@@ -28,6 +28,11 @@ export const set = {
     premises.conditions[cid] = happened
     db.statements.update(id, {premises})
   },
+  observation: (happened) => {
+    const { id, observation } = $.statement
+    observation.happened = happened
+    db.statements.update(id, {observation})
+  },
   text: (text) => {
     $.statement.text = text
     db.statements.update($.curId, { text })
@@ -65,10 +70,17 @@ export const set = {
   },
   type: (type) => {
     $.statement.type = type
-    const props = { type, causation: null, quote: null }
+    const props = {
+      type, causation: null,
+      observation: null,
+      quote: null
+    }
     if (type === 'causation') {
       actions.add.causation()
       delete props['causation']
+    } else if (type === 'observation') {
+      actions.add.observation()
+      delete props['observation']
     } else if (type === 'quote') {
       props.quote = ''
     }

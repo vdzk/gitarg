@@ -14,6 +14,7 @@ export const add = {
       type: 'simple',
       text: '',
       causation: null,
+      observation: null,
       quote: null,
       premises: {
         type: 'statements',
@@ -67,6 +68,14 @@ export const add = {
     }
     $.statement.causation = causation
     db.statements.update($.curId, { causation })
+  },
+  observation: () => {
+    const observation = {
+      event: null,
+      happened: true,
+    }
+    $.statement.observation = observation
+    db.statements.update($.curId, { observation })
   },
   expanded: (expId, pid) => {
     if ($.expanded.hasOwnProperty(expId)) {

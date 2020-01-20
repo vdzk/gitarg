@@ -39,6 +39,14 @@ export const remove = {
     delete premises.conditions[cid]
     db.statements.update(id, {premises})
   },
+  observation: (sid=$.curId) => {
+    const { id, observation } = $.statements[sid]
+    observation = {
+      event: null,
+      happened: true,
+    }
+    db.statements.update(id, { observation })
+  },
   causationEffect: (sid=$.curId) => {
     const { id, causation } = $.statements[sid]
     causation.effect = null
@@ -80,7 +88,7 @@ export const remove = {
       $.buffer.events.splice(bi, 1)
     }
     for (const sid in $.statements) {
-      const { type, premises, causation } = $.statements[sid]
+      const { type, premises, causation, observation } = $.statements[sid]
       if (premises.type === 'causalNet') {
         const { event, conditions } = premises
         if (event === eid) {
@@ -98,6 +106,8 @@ export const remove = {
         if (causes.hasOwnProperty(eid)) {
           remove.causationCause(eid, sid)
         }
+      } else if (type === 'observation' && observation.event === eid) {
+        remove.observation(sid)
       }
     }
   },

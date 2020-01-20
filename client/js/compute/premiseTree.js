@@ -68,6 +68,15 @@ export const getPremisesTree = () => {
             id: effect2statement[eid],
           }))
           .filter(({id}) => !!id)
+          .concat(connected
+            .filter(eid => $.observations.hasOwnProperty(eid))
+            .map(eid => ({
+              pid: expId,
+              indent: indent + 1,
+              type: 'statement',
+              id: $.observations[eid].sid,
+            }))
+          )
           .concat(boundary)
       }
     }

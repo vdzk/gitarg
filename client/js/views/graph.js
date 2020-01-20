@@ -82,6 +82,17 @@ const Node = (id) => {
     } else {
       value = conditionText
     }
+  } else if ($.observations.hasOwnProperty(id)) {
+    const obs = $.observations[id]
+    const obsText = (obs.happened) ? 'да' : 'нет'
+    value = html`
+      <a @click=${() => actions.set.curId(obs.sid)} >
+        <span class="icon">
+          <i class="far fa-eye"></i>
+        </span>
+      </a>
+      ${obsText}
+    `
   } else {
     value = ($.inference.hasOwnProperty(id)) ? ($.inference[id] * 100).toFixed(1) + '%' : holeStr
   }
