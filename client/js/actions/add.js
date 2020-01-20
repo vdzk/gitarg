@@ -23,6 +23,13 @@ export const add = {
     }
     $.statements[id] = statement
     db.statements.add(statement)
+    return { id }
+  },
+  premise: (sid) => {
+    const { id } = add.statement()
+    const { premises } = $.statements[sid]
+    premises.ids.push(id)
+    db.statements.update(sid, {premises})
   },
   event: () => {
     const id = (++$.lastId.event).toString()

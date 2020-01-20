@@ -86,10 +86,12 @@ const Node = (id) => {
     value = ($.inference.hasOwnProperty(id)) ? ($.inference[id] * 100).toFixed(1) + '%' : holeStr
   }
   return html`
-    <div class="box is-absolute node" style=${styleMap(style)} >
+    <div class="box is-absolute is-flex node" style=${styleMap(style)} >
+      <div>
         ${label}
         ${open}
         <span class="is-pulled-right">${value}</span>
+      </div>
     </div>
   `
 }

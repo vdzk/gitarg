@@ -11,10 +11,9 @@ const stateChangeAfter = (obj) => {
     const a = obj[key]
     if (typeof a === 'function') {
       obj[key] = (...args) => {
-        const msg = a(...args)
-        if (msg !== 'noChange') {
-          stateChange()
-        }
+        const result = a(...args)
+        stateChange()
+        return result
       }
     } else {
       stateChangeAfter(a)

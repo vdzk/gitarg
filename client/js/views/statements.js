@@ -20,8 +20,19 @@ const ListView = () => html`
   </article>
 `
 
+const AddPremise = (sid) => html`
+  <span
+    class="icon is-clickable"
+    @click=${() => actions.add.premise(sid)}
+    title="добавить посылку"
+  >
+    <i class="fas fa-plus-square"></i>
+  </span>
+`
+
 const TreeViewItem = ({pid, indent, type, id}) => {
   let text, expanded, canExpand
+  let canAddPremise = false
   let expId = id
   if (type === 'statement') {
     const { modText, premises, event } = $.statements[id]
@@ -29,6 +40,7 @@ const TreeViewItem = ({pid, indent, type, id}) => {
     expanded = $.expanded[id] === pid
     if (premises.type === 'statements') {
       canExpand = premises.ids.length > 0
+      canAddPremise = true
     } else if (premises.type === 'causalNet') {
       canExpand = event !== null
     } else if (premises.type === 'links') {
@@ -76,6 +88,7 @@ const TreeViewItem = ({pid, indent, type, id}) => {
       <div class="flex-1">
         ${text}
         ${(type === 'statement') ? Open(id) : ''}
+        ${(canAddPremise) ? AddPremise(id) : ''}
         ${(type === 'statement') ? Copy('statements', id) : ''}
       </div>
     </div>

@@ -29,6 +29,7 @@ export const Hint = (text) => html`
 export const Open = (id) => html`
   <span
     class="icon is-clickable"
+    title="открыть"
     @click=${() => actions.set.curId(id)}
   >
     <i class="far fa-arrow-alt-circle-right"></i>
