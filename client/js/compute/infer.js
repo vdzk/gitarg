@@ -6,7 +6,7 @@ import { getInference } from '../server.js'
 //m - probability at w = 0.5
 //https://www.desmos.com/calculator/ovfg74i7nd
 const wm2p = (w, m) => (m*w)/(1-m-w+2*m*w)
-const P2cpt = (P) => [P, 1 - P]
+const P2cpt = (P) => ({T: P, F: 1 - P})
 
 const getCombosRec = (parents) => {
   if (parents.length === 0) return [{}]
@@ -145,7 +145,10 @@ export const infer = () => {
             }
           }
           const P = u.minP + p * (u.maxP - u.minP)
-          cpt = cpt.concat(P2cpt(P))
+          cpt.push({
+            when: combo,
+            then: P2cpt(P)
+          })
         }
       }
     }
@@ -170,7 +173,7 @@ export const infer = () => {
   }
 
   //TODO: implement a better caching strategy
-  const inferenceData = { nodes, observations: bayesConditions }
+  const inferenceData = { nodes, evidence: bayesConditions }
   const chacheKey = JSON.stringify({inferenceData})
   if ($.inferenceCacheKey !== chacheKey) {
     $.inference = {}
@@ -181,10 +184,4 @@ export const infer = () => {
         stateChange()
       })
   }
-
-  // //run inference
-  // //NOTE: getNet() was manually added to bayesjs source code by exporting createNetwork()
-  // const network = bayesjs.getNet(...nodes)
-  // //NOTE: infer() source code was manually modified to return all probabilities
-  // $.inference = bayesjs.infer(network, {}, bayesConditions)
 }
