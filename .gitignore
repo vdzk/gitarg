@@ -1,2 +1,3 @@
 client/third_party/*
 client/webfonts/*
+server/infer/pybbn/*

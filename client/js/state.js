@@ -24,7 +24,9 @@ export const initSate = () => $ = {
     statements: [],
   },
   unexported: 0,
-  projectName: 'unnamed'
+  projectName: 'unnamed',
+  inference: null,
+  inferenceCacheKey: null,
 }
 
 
