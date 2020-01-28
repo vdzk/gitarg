@@ -91,6 +91,7 @@ export const importDb = (e) => {
   reader.onload = async (e) => {
     const tables = JSON.parse(e.target.result)
     stringifyIds(tables) //TODO: remove this after 2020-03-01
+    addNewFields(tables.statements) //TODO: remove this after 2020-03-01
     enableHooks = false
     await db.transaction('rw', Object.keys(tables), async () => {
       for (const name in tables) {
@@ -145,3 +146,8 @@ const stringifyIds = (tables) => {
     msObj.sid = msObj.sid.toString()
   }
 }
+
+
+const addNewFields = (statements) => statements.forEach(
+  statement => statement.modQuest = statement.modQuest || ''
+)

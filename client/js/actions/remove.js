@@ -25,6 +25,14 @@ export const remove = {
       db.statements.update(id, {premises})
     }
   },
+  connOb: (oid, sid=$.curId) => {
+    const { id, premises } = $.statements[sid]
+    const i = premises.observations.indexOf(oid)
+    if (i !== -1) {
+      premises.observations.splice(i, 1)
+      db.statements.update(id, {premises})
+    }
+  },
   mainStatement: () => {
     $.mainStatement = null
     db.params.update('mainStatement', { sid: null })
@@ -39,12 +47,15 @@ export const remove = {
     delete premises.conditions[cid]
     db.statements.update(id, {premises})
   },
+  hiddenVariable: (eid, sid=$.curId) => {
+    const { id, premises } = $.statements[sid]
+    delete premises.hiddenVariables[eid]
+    db.statements.update(id, {premises})
+  },
   observation: (sid=$.curId) => {
     const { id, observation } = $.statements[sid]
-    observation = {
-      event: null,
-      happened: true,
-    }
+    observation.event = null
+    observation.happened = true
     db.statements.update(id, { observation })
   },
   causationEffect: (sid=$.curId) => {
@@ -71,9 +82,11 @@ export const remove = {
       $.buffer.statements.splice(bi, 1)
     }
     for (const sid in $.statements) {
-      const { type, ids } = $.statements[sid].premises
+      const { type, ids, observations } = $.statements[sid].premises
       if (type === 'statements' && ids.includes(id)) {
         remove.premise(id, sid)
+      } else if (type === 'connectedness' && observations.includes(id)) {
+        remove.connObs(id, sid)
       }
     }
     if ($.mainStatement === id) {
@@ -96,6 +109,10 @@ export const remove = {
         }
         if (conditions.hasOwnProperty(eid)) {
           remove.premiseCondition(eid, sid)
+        }
+      } else if (premises.type === 'connectedness') {
+        if (premises.hiddenVariables.hasOwnProperty(eid)) {
+          remove.hiddenVariable(eid, sid)
         }
       }
       if (type === 'causation') {

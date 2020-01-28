@@ -1,7 +1,7 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
 import { actions } from '../actions/actions.js'
-import { Copy } from './shared.js'
+import { Copy, Remove } from './shared.js'
 
 const Edit = (id) => {
   const { editing } = $.events[id]

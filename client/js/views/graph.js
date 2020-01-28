@@ -94,7 +94,6 @@ const Node = (id) => {
       ${obsText}
     `
   } else {
-    console.log({id, prob: $.inference[id]})
     value = ($.inference.hasOwnProperty(id)) ? ($.inference[id] * 100).toFixed(1) + '%' : holeStr
   }
   return html`
@@ -109,7 +108,6 @@ const Node = (id) => {
 }
 
 export const Graph = () => {
-  console.log($.inference)
   const { height } = $.graph.graph()
   const placeholderStyle = {
     height: height + 30 + 'px',

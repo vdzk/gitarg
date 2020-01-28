@@ -1,6 +1,7 @@
 import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
 import { actions } from '../actions/actions.js'
+import { Paster, Remove } from './shared.js'
 
 const ProjectName = () => html`
   <div class="field">
@@ -19,32 +20,16 @@ const ProjectName = () => html`
 const Statement = (sid) => html`
   <div class="list-item">
     ${ $.statements[sid].modText }
-    <span
-      class="icon is-pulled-right is-clickable"
-      @click=${() => actions.remove.mainStatement()}
-    >
-      <i class="fas fa-times"></i>
-    </span>
+    ${ Remove(actions.remove.mainStatement) }
   </div>
 `
 
-const MainStatement = () => html`
-  <div class="field">
-    <label class="label">Главное утверждение</label>
-    <div class="control">
-      <div class="list">
-        ${($.mainStatement) ? Statement($.mainStatement) : ''}
-      </div>
-    </div>
-    <button
-      class="button"
-      ?disabled=${$.buffer.statements.length === 0}
-      @click=${actions.paste.mainStatement}
-    >
-      Вставить
-    </button>
-  </div>
-`
+const getMainStatement = () => Paster({
+  label: 'Главное утверждение',
+  content: ($.mainStatement) ? Statement($.mainStatement) : '',
+  source: 'statements',
+  target: 'mainStatement',
+})
 
 const User = (name, i) => html`
   <div class="field">
@@ -62,6 +47,6 @@ const User = (name, i) => html`
 
 export const Settings = () => html`
   ${ProjectName()}
-  ${MainStatement()}
+  ${getMainStatement()}
   ${$.users.map(User)}
 `

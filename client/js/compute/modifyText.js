@@ -65,10 +65,12 @@ export const modifyText = () => {
         modText += '"' + $.events[event].text + '"'
       }
     } else {
-      const { modifiers, text } = statement
+      const { modifiers, text, modQuest } = statement
       if (modifiers && text.includes(modVar)) {
         let modifier = modifiers[$.userId]
-        if (modifier === null) modifier = holeStr
+        if (modifier === null) {
+          modifier = '(' + modQuest + holeStr.replace('(', '')
+        }
         modText = text.replace(modVar, modifier)
       } else {
         modText = text

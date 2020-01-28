@@ -35,3 +35,44 @@ export const Open = (id) => html`
     <i class="far fa-arrow-alt-circle-right"></i>
   </span>
 `
+
+export const Remove = (remove) => html`
+  <span
+    class="icon is-pulled-right is-clickable"
+    @click=${remove}
+  >
+    <i class="fas fa-times"></i>
+  </span>
+`
+
+export const Assignment = ({eid, happened, toggle, remove}) => html`
+  <div class="list-item">
+    ${$.events[eid].text}
+    <button
+      class=${'button is-list-item-button ' + ((happened) ? 'is-success' : 'is-light')}
+      @click=${toggle}
+      ?disabled=${!toggle}
+    >
+      ${(happened) ? 'свершилось': 'не свершилось'}
+    </button>
+    ${(remove) ? Remove(remove) : ''}
+  </div>
+`
+
+export const Paster = ({ label, content, source, target, noList  }) => html`
+  <div class="field">
+    <label class="label">${label}</label>
+    <div class="control">
+      <div class=${(noList) ? '' : 'list'} >
+        ${content}
+      </div>
+    </div>
+    <button
+      class="button"
+      ?disabled=${$.buffer[source].length === 0}
+      @click=${actions.paste[target]}
+    >
+      Вставить
+    </button>
+  </div>
+`

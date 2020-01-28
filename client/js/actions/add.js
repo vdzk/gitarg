@@ -13,6 +13,7 @@ export const add = {
       id: id,
       type: 'simple',
       text: '',
+      modQuest: '',
       causation: null,
       observation: null,
       quote: null,

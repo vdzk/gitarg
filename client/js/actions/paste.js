@@ -13,6 +13,29 @@ export const paste = {
     db.statements.update(id, {premises})
     $.buffer.statements = []
   },
+  connObs: () => {
+    const { id, premises } = $.statement
+    $.buffer.statements.forEach((sid) => {
+      if (!premises.observations.includes(sid)) {
+        const { type, observation } = $.statements[sid]
+        if (type === 'observation' && observation.event !== null) {
+          premises.observations.push(sid)
+        }
+      }
+    })
+    db.statements.update(id, {premises})
+    $.buffer.statements = []
+  },
+  hiddenVariables: () => {
+    const { id, premises } = $.statement
+    $.buffer.events.forEach((eid) => {
+      if (!premises.hiddenVariables.hasOwnProperty(eid)) {
+        premises.hiddenVariables[eid] = true
+      }
+    })
+    db.statements.update(id, {premises})
+    $.buffer.events = []
+  },
   mainStatement: () => {
     const sid = $.buffer.statements.shift()
     $.mainStatement = sid
@@ -69,5 +92,5 @@ export const paste = {
     }
     observation.event = eid
     db.statements.update(id, {observation})
-  },
+  }
 }

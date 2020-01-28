@@ -28,6 +28,11 @@ export const set = {
     premises.conditions[cid] = happened
     db.statements.update(id, {premises})
   },
+  hiddenVariable: (eid, happened) => {
+    const { id, premises } = $.statement
+    premises.hiddenVariables[eid] = happened
+    db.statements.update(id, {premises})
+  },
   observation: (happened) => {
     const { id, observation } = $.statement
     observation.happened = happened
@@ -36,6 +41,10 @@ export const set = {
   text: (text) => {
     $.statement.text = text
     db.statements.update($.curId, { text })
+  },
+  modQuest: (modQuest) => {
+    $.statement.modQuest = modQuest
+    db.statements.update($.curId, { modQuest })
   },
   quote: (quote) => {
     $.statement.quote = quote
@@ -92,11 +101,14 @@ export const set = {
     const premises = { type }
     if (type === 'statements') {
       premises.ids = []
+    } else if (type === 'links') {
+      premises.links = []
     } else if (type === 'causalNet') {
       premises.event = null
       premises.conditions = {}
-    } else if (type === 'links') {
-      premises.links = []
+    } else if (type === 'connectedness') {
+      premises.observations = []
+      premises.hiddenVariables = {}
     }
     $.statement.premises = premises
     db.statements.update($.curId, {premises})
