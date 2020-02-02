@@ -1,7 +1,7 @@
 import { html } from '../../../../third_party/lit-html/lit-html.js'
 import { $ } from '../../../state.js'
 import { actions } from '../../../actions/actions.js'
-import { Paster } from '../../shared.js'
+import { Paster, Assignment } from '../../shared.js'
 
 const getObservation = () => {
   const { event, happened }= $.statement.observation

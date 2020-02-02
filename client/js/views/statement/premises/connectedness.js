@@ -2,6 +2,7 @@ import { html } from '../../../../third_party/lit-html/lit-html.js'
 import { $ } from '../../../state.js'
 import { actions } from '../../../actions/actions.js'
 import { Paster, Assignment } from '../../shared.js'
+import { Graph } from '../../graph.js'
 
 const getConnObs = () => $.statement.premises.observations
   .map((sid) => {
@@ -16,7 +17,7 @@ const getConnObs = () => $.statement.premises.observations
 const getHiddenVariables = () => Object.entries($.statement.premises.hiddenVariables)
   .map(([eid, happened]) => Assignment({
     eid, happened,
-    toggle: actions.set.hiddenVariable(eid, !happened),
+    toggle: () => actions.set.hiddenVariable(eid, !happened),
     remove: () => actions.remove.hiddenVariable(eid),
   }))
 
@@ -35,7 +36,51 @@ const getConnectednessEditor = () => [
   })
 ]
 
-const ConnectednessViewer = () => 'work in progress'
+const views = {
+  'withEvidence': 'c наблюдениями',
+  'replay': 'переигровка',
+  'prevent': 'предотвращение',
+}
+
+const Tab = ([value, label]) => html`
+  <li class=${($.connectedness.view === value) ? 'is-active': ''}>
+    <a @click=${() => actions.set.connectednessView(value)}>
+      <span>${label}</span>
+    </a>
+  </li>
+`
+
+const p2str = (p) => (p * 100).toFixed(1) + '%'
+
+const Calculations = () => html`
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Вероятность наблюдения после переигровки</td>
+        <td>${($.connectedness.score === null) ? '' : p2str($.connectedness.p_e)}</td>
+      </tr>
+      <tr>
+        <td>Вероятность наблюдения после предотвращения</td>
+        <td>${($.connectedness.score === null) ? '' : p2str($.connectedness.p_e_prevent)}</td>
+      </tr>
+      <tr>
+        <td>Степень объяснения</td>
+        <td>${($.connectedness.score === null) ? '' : $.connectedness.score.toFixed(2)}</td>
+      </tr>
+    </tbody>
+  </table>
+`
+
+const ConnectednessViewer = () => html`
+  <label class="label">Причино-следственная сеть</label>
+  <div class="tabs is-boxed">
+    <ul>
+      ${Object.entries(views).map(Tab)}
+    </ul>
+  </div>
+  ${Graph()}
+  ${Calculations()}
+`
 
 export const Connectedness = () => ($.editing)
   ? getConnectednessEditor()

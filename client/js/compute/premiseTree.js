@@ -3,14 +3,9 @@ import { getAllEdges, getConnected } from './graph.js'
 import { eventIdPrefix } from '../constants.js'
 
 export const getPremisesTree = () => {
-  if ($.screen !== 'statements' || !$.treeView || $.mainStatement === null) {
-    $.premisesTree = null
-    return false
-  } else {
-    $.premisesTree = []
-  }
+  if ( $.mainStatement === null) return null
 
-
+  const premisesTree = []
   const lostExpand = new Set(Object.keys($.expanded))
   let boundary = [{
     pid: null,
@@ -21,9 +16,9 @@ export const getPremisesTree = () => {
   while (boundary.length > 0) {
     const item = boundary.shift()
     const { pid, indent, type, id } = item
-    $.premisesTree.push(item)
+    premisesTree.push(item)
     if (type === 'statement') {
-      if ($.expanded[id] === pid && (pid !== $.reExpanded || pid === null)) {
+      if ($.expanded[id] === pid && (pid !== $._reExpanded || pid === null)) {
         lostExpand.delete(id)
         const { premises } = $.statements[id]
         if (premises.type === 'statements') {
@@ -56,7 +51,7 @@ export const getPremisesTree = () => {
       }
     } else if (type === 'causalNet') {
       const expId = eventIdPrefix + id
-      if ($.expanded[expId] === pid && pid !== $.reExpanded) {
+      if ($.expanded[expId] === pid && pid !== $._reExpanded) {
         lostExpand.delete(expId)
         const { effect2statement, effect2causes, cause2effects } = getAllEdges()
         const connected = getConnected(id, effect2causes, cause2effects)
@@ -83,5 +78,7 @@ export const getPremisesTree = () => {
   }
   //Epand can be lost because one of the ancestors was unexpanded.
   lostExpand.forEach(id => delete $.expanded[id])
-  $.reExpanded = null
+  $._reExpanded = null
+
+  return premisesTree
 }

@@ -80,7 +80,7 @@ export const add = {
   },
   expanded: (expId, pid) => {
     if ($.expanded.hasOwnProperty(expId)) {
-      $.reExpanded = expId
+      $._reExpanded = expId
     }
     $.expanded[expId] = pid
   },

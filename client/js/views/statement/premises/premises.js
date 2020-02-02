@@ -16,14 +16,13 @@ const premiseTypes = {
     view: LinkPremises
   },
   causalNet: {
-    label: 'причино-следственная сеть',
+    label: 'расчет вероятности',
     view: CausalNetPremises
   },
-  // //NOTE: work in progress
-  // connectedness: {
-  //   label: 'связанность',
-  //   view: Connectedness
-  // },
+  connectedness: {
+    label: 'расчет связанности',
+    view: Connectedness
+  },
 }
 
 const PremiseTypeOption = (type) => html`
@@ -41,7 +40,7 @@ const PremisesType = () => html`
           .value=${$.statement.premises.type}
           @change=${(e) => actions.set.premisesType(e.target.value)}
         >
-          ${['statements', 'causalNet', 'links'].map(PremiseTypeOption)}
+          ${Object.keys(premiseTypes).map(PremiseTypeOption)}
         </select>
       </div>
     </div>

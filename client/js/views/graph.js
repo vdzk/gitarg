@@ -65,12 +65,12 @@ const Node = (id) => {
   }
   const sid = $.effect2statement[id]
   const open = (sid) ? Open(sid) : ''
-  const { event, conditions } = $.statement.premises
-  if (id == event) {
+  const { type, event, conditions } = $.statement.premises
+  if (type === 'causalNet' && id == event) {
     label = '★'+label
   }
   let value
-  if (conditions.hasOwnProperty(id)) {
+  if (type === 'causalNet' && conditions.hasOwnProperty(id)) {
     const conditionText = (conditions[id]) ? 'да' : 'нет'
     const altCondition = $.altConditions[id]
     if (altCondition) {
@@ -82,7 +82,7 @@ const Node = (id) => {
     } else {
       value = conditionText
     }
-  } else if ($.observations.hasOwnProperty(id)) {
+  } else if (type === 'causalNet' && $.observations.hasOwnProperty(id)) {
     const obs = $.observations[id]
     const obsText = (obs.happened) ? 'да' : 'нет'
     value = html`
@@ -93,8 +93,16 @@ const Node = (id) => {
       </a>
       ${obsText}
     `
+  } else if (type === 'connectedness' && $.bayesConditions.hasOwnProperty(id)) {
+    const obsText = ($.bayesConditions[id] === 'T') ? 'да' : 'нет'
+    value = html`
+      <span class="icon">
+        <i class="far fa-eye"></i>
+      </span>
+      ${obsText}
+    `
   } else {
-    value = ($.inference.hasOwnProperty(id)) ? ($.inference[id] * 100).toFixed(1) + '%' : holeStr
+    value = ($.probabilities.hasOwnProperty(id)) ? ($.probabilities[id] * 100).toFixed(1) + '%' : holeStr
   }
   return html`
     <div class="box is-absolute is-flex node" style=${styleMap(style)} >

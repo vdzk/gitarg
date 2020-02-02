@@ -7,6 +7,7 @@ export const set = {
   userId: (userId) => $.userId = userId,
   editing: (editing) => $.editing = editing,
   treeView: (treeView) => $.treeView = treeView,
+  connectednessView: (v) => $.connectedness.view = v,
   curId: (id) => {
     set.screen('statement')
     set.editing(false)

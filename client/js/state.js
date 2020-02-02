@@ -6,7 +6,7 @@ export const initSate = () => $ = {
   treeView: true,
   premisesTree: null,
   expanded: {},
-  reExpanded: null,
+  _reExpanded: null,
   editing: false,
   users: ['A', 'B'],
   userId: 0,
@@ -25,8 +25,15 @@ export const initSate = () => $ = {
   },
   unexported: 0,
   projectName: 'unnamed',
-  inference: null,
+  probabilities: null,
   inferenceCacheKey: null,
+  connectedness: {
+    view: 'withEvidence',
+    p_e: null,
+    p_e_prevent: null,
+    score: null,
+    allGraphData: null,
+  }
 }
 
 
