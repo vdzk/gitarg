@@ -38,6 +38,13 @@ export const getPremisesTree = () => {
             type: 'causalNet',
             id: premises.event,
           })
+        } else if (premises.type === 'connectedness') {
+          boundary.unshift({
+            pid: id,
+            indent: indent + 1,
+            type: 'causalNet',
+            id: $.statements[premises.observations[0]].observation.event,
+          })
         } else if (premises.type === 'links') {
           boundary = premises.links
             .map((l, i) => ({

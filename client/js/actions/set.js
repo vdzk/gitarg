@@ -8,9 +8,9 @@ export const set = {
   editing: (editing) => $.editing = editing,
   treeView: (treeView) => $.treeView = treeView,
   connectednessView: (v) => $.connectedness.view = v,
-  curId: (id) => {
+  curId: (id, editing=false) => {
     set.screen('statement')
-    set.editing(false)
+    set.editing(editing)
     actions.remove.modal()
     $.curId = id
   },
@@ -28,6 +28,11 @@ export const set = {
     const { id, premises } = $.statement
     premises.conditions[cid] = happened
     db.statements.update(id, {premises})
+  },
+  causationEffect: (eid) => {
+    const { id, causation } = $.statement
+    $.statement.causation.effect = eid
+    db.statements.update(id, {causation})
   },
   hiddenVariable: (eid, happened) => {
     const { id, premises } = $.statement

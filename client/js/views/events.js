@@ -17,6 +17,19 @@ const Edit = (id) => {
   `
 }
 
+const ProbFunc = (id, probFunc) => {
+  const iconClass = 'fas fa-percentage ' + ((probFunc) ? '' : 'has-text-grey-lighter')
+  const iconText = ((probFunc) ? 'редактировать' : 'добавить') + ' функцию вероятности'
+  const onClick = (probFunc)
+    ? () => actions.set.curId(probFunc, true)
+    : () => actions.add.probFunc(id)
+  return html`
+    <span class="icon" title=${iconText} @click=${onClick}>
+      <i class=${iconClass}></i>
+    </span>
+  `
+}
+
 const Editor = (id, text) => html`
   <input
     class="input is-panel-input"
@@ -36,10 +49,11 @@ const Text = (text) => html`
   <span class="flex-1">${text}</span>
 `
 
-const Event = ({id, text, editing}) => html`
+const Event = ({id, text, editing, probFunc}) => html`
   <a class="panel-block">
     ${(editing) ? Editor(id, text) : Text(text)}
     ${Edit(id)}
+    ${ProbFunc(id, probFunc)}
     ${Copy('events', id)}
   </a>
 `

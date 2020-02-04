@@ -64,7 +64,7 @@ const Calculations = () => html`
         <td>${($.connectedness.score === null) ? '' : p2str($.connectedness.p_e_prevent)}</td>
       </tr>
       <tr>
-        <td>Степень объяснения</td>
+        <td>Сила объяснения</td>
         <td>${($.connectedness.score === null) ? '' : $.connectedness.score.toFixed(2)}</td>
       </tr>
     </tbody>

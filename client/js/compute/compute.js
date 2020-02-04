@@ -17,12 +17,22 @@ const getObservations = () => {
   return observations
 }
 
+const linkGroupFuncs = () => {
+  for (const sid in $.statements) {
+    const { type, causation } = $.statements[sid]
+    if (type === 'causation' && causation.effect !== null) {
+      $.events[causation.effect].probFunc = sid
+    }
+  }
+}
+
 const getSatement = () => ($.curId === null) ? null : $.statements[$.curId]
 
 export const compute = () => {
   $.statement = getSatement()
   $.observations = getObservations()
   modifyText()
+  linkGroupFuncs()
 
   if ($.screen === 'statement' && !$.editing) {
     $.nextConclusion = getNextConclusion()

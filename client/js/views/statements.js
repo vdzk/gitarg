@@ -43,6 +43,9 @@ const TreeViewItem = ({pid, indent, type, id}) => {
       canAddPremise = true
     } else if (premises.type === 'causalNet') {
       canExpand = event !== null
+    } else if (premises.type === 'connectedness') {
+      canExpand = (premises.observations.length > 0)
+        && $.statements[premises.observations[0]].observation.event !== null
     } else if (premises.type === 'links') {
       canExpand = premises.links.length > 0
     }

@@ -27,6 +27,12 @@ export const add = {
     db.statements.add(statement)
     return { id }
   },
+  probFunc: (eid) => {
+    const { id } = add.statement()
+    $.statement = $.statements[id]
+    actions.set.type('causation')
+    actions.set.causationEffect(eid)
+  },
   premise: (sid) => {
     const { id } = add.statement()
     const { premises } = $.statements[sid]
