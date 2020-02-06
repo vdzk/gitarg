@@ -83,4 +83,8 @@ export const applyRoute = () => {
   const { page, params } = matcher(document.location.pathname)
   page(params)
 }
-window.onpopstate = applyRoute
+window.onpopstate = () => {
+  //Hack for FF and Safari to trigger change event on the active input.
+  document.activeElement.blur()
+  applyRoute()
+}

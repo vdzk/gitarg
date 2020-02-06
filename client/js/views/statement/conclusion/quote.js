@@ -1,3 +1,6 @@
+import { html } from '../../../../third_party/lit-html/lit-html.js'
+import { $ } from '../../../state.js'
+import { actions } from '../../../actions/actions.js'
 import { TextConclusion } from './text.js'
 
 const QuoteEditor = () => html`

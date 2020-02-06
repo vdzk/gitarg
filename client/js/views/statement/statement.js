@@ -3,6 +3,7 @@ import { $ } from '../../state.js'
 import { actions } from '../../actions/actions.js'
 import { Premises } from './premises/premises.js'
 import { Conclusion } from './conclusion/conclusion.js'
+import { Copy } from '../shared.js'
 
 const EditBtn = () => html`
   <button class="button" @click=${() => actions.set.editing(true)} >
@@ -32,9 +33,13 @@ const DeleteBtn = () => html`
   </botton>
 `
 
+const CopyBtn = () => Copy('statements', $.statement.id, true)
+
+
+
 const Actions = () => ($.editing)
-  ? [ReadBtn(), DeleteBtn()]
-  : [EditBtn(), NextConclusionBtn()]
+  ? [ReadBtn(), CopyBtn(), DeleteBtn()]
+  : [EditBtn(), CopyBtn(), NextConclusionBtn()]
 
 export const Statement = () => html`
   ${Premises()}

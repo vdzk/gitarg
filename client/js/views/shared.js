@@ -2,18 +2,27 @@ import { html } from '../../third_party/lit-html/lit-html.js'
 import { $ } from '../state.js'
 import { actions } from '../actions/actions.js'
 
-export const Copy = (type, id) => {
+export const Copy = (type, id, button) => {
   const inBuffer = $.buffer[type].includes(id)
   const iconClass = `fa${(inBuffer) ? 's' : 'r'} fa-copy`
-  const iconText = (inBuffer) ? 'убрать из буфера' : 'копировать'
-  return html`
-    <span
-      class="icon" title=${iconText}
-      @click=${(e) => actions.toggle.buffer(e, id, type)}
-    >
-      <i class=${iconClass}></i>
-    </span>
-  `
+  const text = (inBuffer) ? 'убрать из буфера' : 'копировать'
+  const onClick = (e) => actions.toggle.buffer(e, id, type)
+  if (button) {
+    return html`
+      <button class="button" @click=${onClick}>
+        <span class="icon">
+          <i class=${iconClass}></i>
+        </span>
+        <span>${text}</span>
+      </button>
+    `
+  } else {
+    return html`
+      <span class="icon" title=${text} @click=${onClick}>
+        <i class=${iconClass}></i>
+      </span>
+    `
+  }
 }
 
 export const Hint = (text) => html`
@@ -63,7 +72,7 @@ export const Paster = ({ label, content, source, target, noList  }) => html`
   <div class="field">
     <label class="label">${label}</label>
     <div class="control">
-      <div class=${(noList) ? '' : 'list'} >
+      <div class=${(noList || (content.length === 0)) ? '' : 'list'} >
         ${content}
       </div>
     </div>
