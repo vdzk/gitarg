@@ -5,7 +5,7 @@ import { Paster, Remove } from './shared.js'
 
 const ProjectName = () => html`
   <div class="field">
-    <label class="label">Название проекта</label>
+    <label class="label">Название файла спора</label>
     <div class="control">
       <input
         class="input"
@@ -25,7 +25,7 @@ const Statement = (sid) => html`
 `
 
 const getMainStatement = () => Paster({
-  label: 'Главное утверждение',
+  label: 'Тезис',
   content: ($.mainStatement) ? Statement($.mainStatement) : '',
   source: 'statements',
   target: 'mainStatement',

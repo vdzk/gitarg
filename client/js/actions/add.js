@@ -33,6 +33,12 @@ export const add = {
     actions.set.type('causation')
     actions.set.causationEffect(eid)
   },
+  observationStatement: (eid) => {
+    const { id } = add.statement()
+    $.statement = $.statements[id]
+    actions.set.type('observation')
+    actions.set.observationEvent(eid)
+  },
   premise: (sid) => {
     const { id } = add.statement()
     const { premises } = $.statements[sid]
@@ -40,6 +46,7 @@ export const add = {
     db.statements.update(sid, {premises})
   },
   event: () => {
+    actions.set.screen('events')
     const id = (++$.lastId.event).toString()
     db.params.update('lastId', {event: id})
     const event = {
@@ -49,13 +56,6 @@ export const add = {
     $.events[id] = event
     db.events.add(event)
     event.editing = true
-  },
-  item: () => {
-    if ($.screen === 'events') {
-      actions.add.event()
-    } else {
-      actions.add.statement()
-    }
   },
   link: () => {
     const { id, premises } = $.statement

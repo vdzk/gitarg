@@ -72,7 +72,7 @@ export const getGraph = (connected, cause2effects) => {
   for (const cid of connected) {
     graph.setNode(cid, {
       label: $.events[cid].text,
-      width: 250,
+      width: 254,
       height: 80,
     })
     for (const eid of cause2effects[cid] || []) {

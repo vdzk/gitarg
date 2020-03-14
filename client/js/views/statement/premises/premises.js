@@ -8,7 +8,7 @@ import { Connectedness } from './connectedness.js'
 
 const premiseTypes = {
   statements: {
-    label: 'список утверждений',
+    label: 'список суждений',
     view: StatementsPremises
   },
   links: {

@@ -82,22 +82,25 @@ const Node = (id) => {
     } else {
       value = conditionText
     }
-  } else if (type === 'causalNet' && $.observations.hasOwnProperty(id)) {
+  } else if ((type === 'causalNet' || (type === 'connectedness' && $.connectedness.view === 'withEvidence')) && $.observations.hasOwnProperty(id)) {
     const obs = $.observations[id]
     const obsText = (obs.happened) ? 'да' : 'нет'
+    const obsIconClass = 'far fa-eye' + ((obs.happened) ? '' : '-slash')
     value = html`
       <a @click=${() => actions.set.curId(obs.sid)} >
         <span class="icon">
-          <i class="far fa-eye"></i>
+          <i class=${obsIconClass}></i>
         </span>
       </a>
       ${obsText}
     `
   } else if (type === 'connectedness' && $.bayesConditions.hasOwnProperty(id)) {
-    const obsText = ($.bayesConditions[id] === 'T') ? 'да' : 'нет'
+    const happened = $.bayesConditions[id] === 'T'
+    const obsText = (happened) ? 'да' : 'нет'
+    const obsIconClass = 'far fa-eye' + ((happened) ? '' : '-slash')
     value = html`
       <span class="icon">
-        <i class="far fa-eye"></i>
+        <i class=${obsIconClass}></i>
       </span>
       ${obsText}
     `

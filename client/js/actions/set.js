@@ -44,6 +44,11 @@ export const set = {
     observation.happened = happened
     db.statements.update(id, {observation})
   },
+  observationEvent: (eid) => {
+    const { id, observation } = $.statement
+    observation.event = eid
+    db.statements.update(id, {observation})
+  },
   text: (text) => {
     $.statement.text = text
     db.statements.update($.curId, { text })

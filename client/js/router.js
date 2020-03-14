@@ -9,11 +9,13 @@ const routes = {
   }),
   statement: () => ({
     segments: ['statement', $.statement.id, $.userId, ($.editing) ? '1' : '0'],
+    historySegments: ['statement', $.statement.id],
     title: $.statement.modText,
   }),
   statements: () => ({
     segments: ['statements', ($.treeView) ? '1' : '0', $.userId],
-    title: (($.treeView) ? 'Дерево' : 'Список') + ' утверждений',
+    historySegments: ['statements'],
+    title: (($.treeView) ? 'Дерево' : 'Список') + ' суждений',
   }),
   saves: () => ({
     segments: ['saves'],
@@ -26,21 +28,26 @@ const routes = {
 }
 
 const getRoute = () => {
-  const { title, segments } = routes[$.screen]()
+  const { title, segments, historySegments } = routes[$.screen]()
   const path = '/' + segments.join('/')
-  return ({path, title})
+  const historyPath = (historySegments) ? '/'+historySegments.join('/') : path
+  return ({path, title, historyPath})
 }
 
 const replaceRoute = () => {
-  const {path, title} = getRoute()
-  history.replaceState({}, '', path)
+  const {path, title, historyPath} = getRoute()
+  history.replaceState({ historyPath }, '', path)
   window.document.title = title
 }
 
 export const updateRoute = () => {
-  const {path, title} = getRoute()
+  const {path, title, historyPath} = getRoute()
   if (document.location.pathname !== path) {
-    window.history.pushState({}, '', path)
+    if (history.state && historyPath && history.state.historyPath === historyPath) {
+      window.history.replaceState({ historyPath }, '', path)
+    } else {
+      window.history.pushState({ historyPath }, '', path)
+    }
   }
   window.document.title = title
 }

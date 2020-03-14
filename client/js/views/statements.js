@@ -14,9 +14,9 @@ const Statement = ({id, modText}) => html`
 const ListView = () => html`
   <article class="panel is-primary has-background-white">
     <p class="panel-heading">
-      Утверждения
+      Суждения
     </p>
-    ${Object.values($.statements).map(Statement)}
+    ${Object.values($.statements).reverse().map(Statement)}
   </article>
 `
 
@@ -90,9 +90,11 @@ const TreeViewItem = ({pid, indent, type, id}) => {
       <div>${expander}</div>
       <div class="flex-1">
         ${text}
-        ${(type === 'statement') ? Open(id) : ''}
-        ${(canAddPremise) ? AddPremise(id) : ''}
-        ${(type === 'statement') ? Copy('statements', id) : ''}
+        <span class="tree-view-actions">
+          ${(type === 'statement') ? Open(id) : ''}
+          ${(canAddPremise) ? AddPremise(id) : ''}
+          ${(type === 'statement') ? Copy('statements', id) : ''}
+        </span>
       </div>
     </div>
   `

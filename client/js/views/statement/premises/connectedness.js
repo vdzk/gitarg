@@ -72,7 +72,7 @@ const Calculations = () => html`
 `
 
 const ConnectednessViewer = () => html`
-  <label class="label">Причино-следственная сеть</label>
+  <label class="label">Причинно-следственная сеть</label>
   <div class="tabs is-boxed">
     <ul>
       ${Object.entries(views).map(Tab)}

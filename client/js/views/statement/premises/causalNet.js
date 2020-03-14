@@ -41,7 +41,7 @@ const CausalNetQuery = () => html`
 `
 
 const CausalNet = () => html`
-  <label class="label">Причино-следственная сеть</label>
+  <label class="label">Причинно-следственная сеть</label>
   ${Graph()}
 `
 

@@ -37,7 +37,7 @@ const TypeOption = ([type, { label }]) => html`
 
 const SelectType = () => html`
   <div class="field">
-    <label class="label">Тип утверждения</label>
+    <label class="label">Тип суждения</label>
     <div class="control">
       <div class="select is-danger">
         <select

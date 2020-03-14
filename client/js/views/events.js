@@ -30,6 +30,29 @@ const ProbFunc = (id, probFunc) => {
   `
 }
 
+const Observe = (id) => {
+  const observation = $.observations[id]
+  let iconClass, iconText, onClick
+  if (!observation) {
+    iconText = 'добавить наблюдение'
+    iconClass = 'far fa-eye has-text-grey-lighter'
+    onClick = () => actions.add.observationStatement(id)
+  } else if (observation.happened) {
+    iconText = 'сбылось, открыть'
+    iconClass = 'far fa-eye'
+    onClick = () => actions.set.curId(observation.sid)
+  } else {
+    iconText = 'не сбылось, открыть'
+    iconClass = 'far fa-eye-slash'
+    onClick = () => actions.set.curId(observation.sid)
+  }
+  return html`
+    <span class="icon" title=${iconText} @click=${onClick}>
+      <i class=${iconClass}></i>
+    </span>
+  `
+}
+
 const Editor = (id, text) => html`
   <input
     class="input is-panel-input"
@@ -54,6 +77,7 @@ const Event = ({id, text, editing, probFunc}) => html`
     ${(editing) ? Editor(id, text) : Text(text)}
     ${Edit(id)}
     ${ProbFunc(id, probFunc)}
+    ${Observe(id)}
     ${Copy('events', id)}
   </a>
 `
@@ -63,6 +87,6 @@ export const Events = () => html`
     <p class="panel-heading">
       События
     </p>
-    ${Object.values($.events).map(Event)}
+    ${Object.values($.events).reverse().map(Event)}
   </article>
 `

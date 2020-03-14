@@ -12,7 +12,7 @@ export const remove = {
   },
   probs: () => {
     const { id, causation } = $.statement
-    for (const key of ['minP', 'minP', 'maxP']) {
+    for (const key of ['minP', 'midP', 'maxP']) {
       causation[key][$.userId] = null
     }
     db.statements.update(id, {causation})

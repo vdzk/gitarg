@@ -23,7 +23,7 @@ const TextInput = () => html`
 
 const Modifier = (name, i) => html`
   <div class="field">
-    <label class="label">Модификатор</label>
+    <label class="label">Квантор</label>
   </div>
   <div class="field has-addons">
     ${Hint('Короткая форма вопроса которая описывает что нужно вставить вместо \\1 каждому из пользователей.')}
