@@ -71,16 +71,30 @@ const Calculations = () => html`
   </table>
 `
 
-const ConnectednessViewer = () => html`
-  <label class="label">Причинно-следственная сеть</label>
-  <div class="tabs is-boxed">
-    <ul>
-      ${Object.entries(views).map(Tab)}
-    </ul>
-  </div>
-  ${Graph()}
-  ${Calculations()}
-`
+const ConnectednessViewer = () => {
+  const { observations, hiddenVariables } = $.statement.premises
+  const missingData = observations.length === 0 || Object.keys(hiddenVariables).length === 0
+  let content
+  if (missingData) {
+    content = html`
+      <span>Некоторые данные отсутствуют.</span>
+    `
+  } else {
+    content = html`
+      <div class="tabs is-boxed">
+        <ul>
+          ${Object.entries(views).map(Tab)}
+        </ul>
+      </div>
+      ${Graph()}
+      ${Calculations()}
+    `
+  }
+  return html`
+    <label class="label">Причинно-следственная сеть</label>
+    ${content}
+  `
+}
 
 export const Connectedness = () => ($.editing)
   ? getConnectednessEditor()

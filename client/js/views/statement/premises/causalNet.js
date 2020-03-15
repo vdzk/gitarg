@@ -42,7 +42,7 @@ const CausalNetQuery = () => html`
 
 const CausalNet = () => html`
   <label class="label">Причинно-следственная сеть</label>
-  ${Graph()}
+  ${($.statement.premises.event === null) ? '' : Graph()}
 `
 
 export const CausalNetPremises = () => ($.editing) ? CausalNetQuery() : CausalNet()

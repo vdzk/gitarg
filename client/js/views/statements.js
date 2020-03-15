@@ -106,7 +106,7 @@ const TreeView = () => {
     return html`
       <article class="message">
         <div class="message-body">
-          Пожалуйста сначала выбирите главное утверждение в настройках.
+          Пожалуйста сначала выберите главное утверждение в настройках.
         </div>
       </article>
     `
