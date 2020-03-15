@@ -37,6 +37,11 @@ export const remove = {
     $.mainStatement = null
     db.params.update('mainStatement', { sid: null })
   },
+  fresh: (sid=$.curId) => {
+    if ($.freshStatement === sid) {
+      $.freshStatement = null
+    }
+  },
   premiseEvent: (sid=$.curId) => {
     const { id, premises } = $.statements[sid]
     premises.event = null
@@ -92,6 +97,7 @@ export const remove = {
     if ($.mainStatement === id) {
       remove.mainStatement()
     }
+    remove.fresh(id)
   },
   event: (eid) => {
     delete $.events[eid]

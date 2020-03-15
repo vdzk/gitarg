@@ -6,25 +6,31 @@ export const add = {
   statement: () => {
     actions.set.screen('statement')
     actions.set.editing(true)
-    const id = (++$.lastId.statement).toString()
-    db.params.update('lastId', {statement: id})
-    $.curId = id
-    const statement = {
-      id: id,
-      type: 'simple',
-      text: '',
-      modQuest: '',
-      causation: null,
-      observation: null,
-      quote: null,
-      premises: {
-        type: 'statements',
-        ids: [],
-      },
-      modifiers: $.users.map(() => null),
+    let id
+    if ($.freshStatement === null) {
+      id = (++$.lastId.statement).toString()
+      db.params.update('lastId', {statement: id})
+      $.curId = id
+      const statement = {
+        id: id,
+        type: 'simple',
+        text: '',
+        modQuest: '',
+        causation: null,
+        observation: null,
+        quote: null,
+        premises: {
+          type: 'statements',
+          ids: [],
+        },
+        modifiers: $.users.map(() => null),
+      }
+      $.statements[id] = statement
+      db.statements.add(statement)
+      $.freshStatement = id
+    } else {
+      id = $.freshStatement
     }
-    $.statements[id] = statement
-    db.statements.add(statement)
     return { id }
   },
   probFunc: (eid) => {

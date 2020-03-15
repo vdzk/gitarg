@@ -52,10 +52,12 @@ export const set = {
   text: (text) => {
     $.statement.text = text
     db.statements.update($.curId, { text })
+    actions.remove.fresh()
   },
   modQuest: (modQuest) => {
     $.statement.modQuest = modQuest
     db.statements.update($.curId, { modQuest })
+    actions.remove.fresh()
   },
   quote: (quote) => {
     $.statement.quote = quote
@@ -65,6 +67,7 @@ export const set = {
     const { id, modifiers } = $.statement
     modifiers[$.userId] = t
     db.statements.update($.statement.id, {modifiers})
+    actions.remove.fresh()
   },
   prob: (key, p) => {
     let { id, causation } = $.statement
@@ -106,6 +109,7 @@ export const set = {
     }
     Object.assign($.statement, props)
     db.statements.update($.curId, props)
+    actions.remove.fresh()
   },
   premisesType: (type) => {
     //TODO: prevent loss of data
@@ -123,5 +127,6 @@ export const set = {
     }
     $.statement.premises = premises
     db.statements.update($.curId, {premises})
+    actions.remove.fresh()
   },
 }

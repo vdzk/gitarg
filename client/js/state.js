@@ -3,7 +3,7 @@ export let $
 export const initSate = () => $ = {
   screen: 'statements',
   modal: null,
-  treeView: true,
+  treeView: false,
   premisesTree: null,
   expanded: {},
   _reExpanded: null,
@@ -14,6 +14,7 @@ export const initSate = () => $ = {
   curId: null,
   statement: null,
   mainStatement: null,
+  freshStatement: null,
   events: {},
   lastId: {
     event: 0,
