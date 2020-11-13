@@ -1,9 +1,10 @@
 # Gitarg
 Gitarg attempts to make arguing more rigorous by using [Bayesian networks](https://en.wikipedia.org/wiki/Bayesian_network) to verify subjective probabilities of contentious events. Its features include:
+* listing arguments and connecting them together,
+* swapping between alternative points of view,
 * causal network editor with automatic layout,
 * inferring posterior probabilities of events,
 * comparing relevances of alternative explanations,
-* swapping between alternative points of view,
 * persisting user data in localstorage and save files.
 
 # Causal network example
