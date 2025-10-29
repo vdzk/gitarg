@@ -13,6 +13,4 @@ Gitarg attempts to make arguing more rigorous by using [Bayesian networks](https
 # Links
 
 
-[Manual](https://dante-ga.gitbook.io/gitarg/) (in Russian)
-
-[Live demo](https://steps.gitarg.org) (in Russian)
+[Manual](https://dante-ga.gitbook.io/gitarg/) (RUS)
